@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="storebd"/>
+  <table-filter match-name="purchase"/>
+  <table-filter match-name="pricepurchase"/>
+  <table-filter match-name="cancelpurchaseauditorie"/>
+  <table-filter match-name="groupp"/>
+  <table-filter match-name="price"/>
+  <table-filter match-name="lend"/>
+  <table-filter match-name="orders"/>
+  <table-filter match-name="producttype"/>
+  <table-filter match-name="productimage"/>
+  <table-filter match-name="provider"/>
+  <table-filter match-name="cash"/>
+  <table-filter match-name="purchasetotal"/>
+  <table-filter match-name="pay"/>
+  <table-filter match-name="orderitem"/>
+  <table-filter match-name="brand"/>
+  <table-filter match-name="user"/>
+  <table-filter match-name="purchaseitem"/>
+  <table-filter match-name="provides"/>
+  <table-filter match-name="category"/>
+  <table-filter match-name="owner"/>
+  <table-filter match-name="product"/>
+  <table-filter match-name="usergroup"/>
+  <table-filter match-name="unity"/>
+  <table-filter match-name="client"/>
+</hibernate-reverse-engineering>
