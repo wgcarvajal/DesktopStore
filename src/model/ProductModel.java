@@ -33,6 +33,7 @@ public class ProductModel extends AbstractModel<Product>{
         try {
                 transaction = session.beginTransaction();
                 Criteria cr = session.createCriteria(Product.class,"aliasProduct");
+                cr.createCriteria("aliasProduct.unity", "aliasUnity");
                 cr.createCriteria("aliasProduct.producttype", "aliasProducttype");
                 cr.createCriteria("aliasProduct.owner", "aliasOwner");
                 cr.add(Restrictions.eq("aliasProduct.prodBarCode", prodBarCode));

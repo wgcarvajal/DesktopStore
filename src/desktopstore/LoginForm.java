@@ -241,11 +241,11 @@ public class LoginForm extends JFrame {
                     loadingDialog.setVisible(false);
                     String result = get();
                     if(result.equals("cashier")){
-                        CasherForm casherForm = new CasherForm();
-                        casherForm.setCashier(user);
-                        casherForm.init();
-                        casherForm.setVisible(true);
-                        casherForm.closeView();
+                        CashForm cashForm = new CashForm();
+                        cashForm.setCashier(user);
+                        cashForm.init();
+                        cashForm.setVisible(true);
+                        //cashForm.closeView();
                         setVisible(false);
                     }
                     else if(result.equals("admin")){

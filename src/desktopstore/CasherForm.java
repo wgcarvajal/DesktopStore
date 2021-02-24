@@ -12,6 +12,7 @@ import desktopstore.util.ResultAddProduct;
 import desktopstore.util.Scale;
 import desktopstore.util.ScaleIP;
 import desktopstore.util.Util;
+import desktopstore.util.WordWrapCellRenderer;
 import entities.Cancelpurchaseauditorie;
 import entities.Price;
 import entities.Pricepurchase;
@@ -22,6 +23,7 @@ import entities.User;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
@@ -108,21 +111,22 @@ public class CasherForm extends javax.swing.JFrame {
     
     public void openCashView()
     {
-        openBtn.setVisible(false);
         exitBtn.setVisible(true);
+        totalBtn.setVisible(true);
+        resumeBtn.setVisible(true);
+        searchClientBtn.setVisible(true);
+        searchProductBtn.setVisible(true);
+        openBtn.setVisible(false);
         addClientBtn.setVisible(false);
         addToBacketBtn.setVisible(true);
         changeQuantitybtn.setVisible(false);
         cancelBtn.setVisible(false);
         paymentBtn.setVisible(false);
         removeProductBtn.setVisible(false);
-        resumeBtn.setVisible(true);
         returnProductBtn.setVisible(false);
         saleJPanel.setVisible(false);
-        searchClientBtn.setVisible(true);
-        searchProductBtn.setVisible(true);
         selectBtn.setVisible(false);
-        totalBtn.setVisible(true);
+        
     }
     
     public void addToBacketView()
@@ -462,21 +466,16 @@ public class CasherForm extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(10, 10, 10)
-                    .addComponent(rSLabelHora1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                    .addGap(11, 11, 11)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(rSLabelHora1, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(rSLabelHora1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(rSLabelHora1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel3.setBackground(new java.awt.Color(92, 156, 204));
@@ -513,9 +512,9 @@ public class CasherForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
@@ -526,11 +525,12 @@ public class CasherForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(userName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
@@ -544,10 +544,10 @@ public class CasherForm extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(533, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(597, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -608,18 +608,33 @@ public class CasherForm extends javax.swing.JFrame {
         selectBtn.setBorderPainted(false);
         selectBtn.setFocusable(false);
         selectBtn.setOpaque(true);
+        selectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectBtnActionPerformed(evt);
+            }
+        });
 
         changeQuantitybtn.setBackground(new java.awt.Color(255, 255, 255));
         changeQuantitybtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sale/changeQuantity.png"))); // NOI18N
         changeQuantitybtn.setBorderPainted(false);
         changeQuantitybtn.setFocusable(false);
         changeQuantitybtn.setOpaque(true);
+        changeQuantitybtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeQuantitybtnActionPerformed(evt);
+            }
+        });
 
         removeProductBtn.setBackground(new java.awt.Color(255, 255, 255));
         removeProductBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/product/removeProduct.png"))); // NOI18N
         removeProductBtn.setBorderPainted(false);
         removeProductBtn.setFocusable(false);
         removeProductBtn.setOpaque(true);
+        removeProductBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeProductBtnActionPerformed(evt);
+            }
+        });
 
         addToBacketBtn.setBackground(new java.awt.Color(255, 255, 255));
         addToBacketBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sale/addToBasket.png"))); // NOI18N
@@ -637,92 +652,127 @@ public class CasherForm extends javax.swing.JFrame {
         resumeBtn.setBorderPainted(false);
         resumeBtn.setFocusable(false);
         resumeBtn.setOpaque(true);
+        resumeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resumeBtnActionPerformed(evt);
+            }
+        });
 
         searchProductBtn.setBackground(new java.awt.Color(255, 255, 255));
         searchProductBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/product/searchProduct.png"))); // NOI18N
         searchProductBtn.setBorderPainted(false);
         searchProductBtn.setFocusable(false);
         searchProductBtn.setOpaque(true);
+        searchProductBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchProductBtnActionPerformed(evt);
+            }
+        });
 
         returnProductBtn.setBackground(new java.awt.Color(255, 255, 255));
         returnProductBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/product/returnProduct.png"))); // NOI18N
         returnProductBtn.setBorderPainted(false);
         returnProductBtn.setFocusable(false);
         returnProductBtn.setOpaque(true);
+        returnProductBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnProductBtnActionPerformed(evt);
+            }
+        });
 
         addClientBtn.setBackground(new java.awt.Color(255, 255, 255));
         addClientBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/client/addClient.png"))); // NOI18N
         addClientBtn.setBorderPainted(false);
         addClientBtn.setFocusable(false);
         addClientBtn.setOpaque(true);
+        addClientBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addClientBtnActionPerformed(evt);
+            }
+        });
 
         searchClientBtn.setBackground(new java.awt.Color(255, 255, 255));
         searchClientBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/client/searchClient.png"))); // NOI18N
         searchClientBtn.setBorderPainted(false);
         searchClientBtn.setFocusable(false);
         searchClientBtn.setOpaque(true);
+        searchClientBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchClientBtnActionPerformed(evt);
+            }
+        });
 
         totalBtn.setBackground(new java.awt.Color(255, 255, 255));
         totalBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sale/total.png"))); // NOI18N
         totalBtn.setBorderPainted(false);
         totalBtn.setFocusable(false);
         totalBtn.setOpaque(true);
+        totalBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(paymentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(changeQuantitybtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addToBacketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resumeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(totalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(paymentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(changeQuantitybtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(removeProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(addToBacketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(resumeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(searchProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(addClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(totalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(addToBacketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(exitBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(openBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(paymentBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeQuantitybtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(selectBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeProductBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(resumeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(searchProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(addClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(totalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(searchProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(searchClientBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addClientBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(totalBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(resumeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(paymentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(addToBacketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addComponent(removeProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addComponent(changeQuantitybtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jLabel3.setText("Código:");
@@ -733,7 +783,7 @@ public class CasherForm extends javax.swing.JFrame {
             }
         });
 
-        btnReadCode.setBackground(new java.awt.Color(255, 153, 204));
+        btnReadCode.setBackground(new java.awt.Color(255, 255, 255));
         btnReadCode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/searchIcon.png.png"))); // NOI18N
         btnReadCode.setFocusable(false);
         btnReadCode.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -750,10 +800,9 @@ public class CasherForm extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(codeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(codeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(btnReadCode)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(btnReadCode))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -787,11 +836,11 @@ public class CasherForm extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNameClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNameClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -822,6 +871,12 @@ public class CasherForm extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        productTable.setFocusable(false);
+        productTable.setRowHeight(35);
+        productTable.setSelectionBackground(new java.awt.Color(223, 239, 252));
+        productTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        productTable.setShowGrid(true);
+        productTable.setSize(new java.awt.Dimension(1, 1));
         JTableHeader header = productTable.getTableHeader();
         header.setBackground(new Color(223, 239, 252));
         header.setForeground(new Color(46, 110, 158));
@@ -834,18 +889,27 @@ public class CasherForm extends javax.swing.JFrame {
         JLabel headerLabel = (JLabel) rendererFromHeader;
         headerLabel.setHorizontalAlignment(JLabel.CENTER);
         header.setPreferredSize(new Dimension(100,30));
+
+        productTable.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        productTable.setEnabled(false);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        productTable.setDefaultRenderer(String.class, centerRenderer);
+        productTable.setShowVerticalLines(true);
+        productTable.setShowHorizontalLines(true);
+        productTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
         tableScrollPanel.setViewportView(productTable);
 
         javax.swing.GroupLayout saleJPanelLayout = new javax.swing.GroupLayout(saleJPanel);
         saleJPanel.setLayout(saleJPanelLayout);
         saleJPanelLayout.setHorizontalGroup(
             saleJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(saleJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(saleJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tableScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1015, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, saleJPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(saleJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tableScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
         saleJPanelLayout.setVerticalGroup(
             saleJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -860,14 +924,16 @@ public class CasherForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saleJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(saleJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -892,32 +958,9 @@ public class CasherForm extends javax.swing.JFrame {
        readCode();
     }//GEN-LAST:event_btnReadCodeActionPerformed
 
-    private void paymentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_paymentBtnActionPerformed
-
-    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-      txtCancelSalepassword.setText("");
-      cancelSalePasswordDialog.setVisible(true);
-    }//GEN-LAST:event_cancelBtnActionPerformed
-
-    private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
-       txtOpenCashPassword.setText("");
-       openCashPasswordDialog.setVisible(true);
-    }//GEN-LAST:event_openBtnActionPerformed
-
-    private void addToBacketBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBacketBtnActionPerformed
-        addToBacketView();
-        addtoBacketInitValues();
-    }//GEN-LAST:event_addToBacketBtnActionPerformed
-
     private void btnOkOpenCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkOpenCashActionPerformed
         openCash();
     }//GEN-LAST:event_btnOkOpenCashActionPerformed
-
-    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
-        closeView();
-    }//GEN-LAST:event_exitBtnActionPerformed
 
     private void txtOpenCashPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOpenCashPasswordActionPerformed
         openCash();
@@ -934,6 +977,73 @@ public class CasherForm extends javax.swing.JFrame {
     private void codeTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeTxtActionPerformed
         readCode();
     }//GEN-LAST:event_codeTxtActionPerformed
+
+    private void addClientBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClientBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addClientBtnActionPerformed
+
+    private void addToBacketBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBacketBtnActionPerformed
+        addToBacketView();
+        addtoBacketInitValues();
+    }//GEN-LAST:event_addToBacketBtnActionPerformed
+
+    private void paymentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paymentBtnActionPerformed
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        txtCancelSalepassword.setText("");
+        cancelSalePasswordDialog.setVisible(true);
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        closeView();
+    }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
+        txtOpenCashPassword.setText("");
+        openCashPasswordDialog.setVisible(true);
+    }//GEN-LAST:event_openBtnActionPerformed
+
+    private void selectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectBtnActionPerformed
+        // TODO add your handling code here:
+        
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+        
+        System.out.println("width: "+width);
+        System.out.println("height: "+height);
+        
+    }//GEN-LAST:event_selectBtnActionPerformed
+
+    private void changeQuantitybtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeQuantitybtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_changeQuantitybtnActionPerformed
+
+    private void removeProductBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProductBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeProductBtnActionPerformed
+
+    private void resumeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resumeBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resumeBtnActionPerformed
+
+    private void searchProductBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchProductBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchProductBtnActionPerformed
+
+    private void returnProductBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnProductBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_returnProductBtnActionPerformed
+
+    private void searchClientBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchClientBtnActionPerformed
+
+    private void totalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalBtnActionPerformed
 
    public void init()
    {
@@ -1020,7 +1130,7 @@ public class CasherForm extends javax.swing.JFrame {
         {
             case "001":
                 //purchaseEJB.findTotalEachMonthByYear(2015);
-                if(btnOkOpenCash.isVisible())
+                if(openBtn.isVisible())
                 {
                     txtOpenCashPassword.setText("");
                     openCashPasswordDialog.setVisible(true);
@@ -1217,13 +1327,14 @@ public class CasherForm extends javax.swing.JFrame {
                         Purchaseitem purchaseitem = purchaseitems.get(purchaseitems.size()-1);
                         
                         Object[] row = { purchaseitem.getProduct().getProdBarCode(), 
-                            purchaseitem.getProduct().getProdNameBill(), 
-                            purchaseitem.getPriceValue(), 
-                            purchaseitem.getPurItemQuantity(),
-                            purchaseitem.getPriceValue()* purchaseitem.getPurItemQuantity()};
+                            purchaseitem.getProduct().getProdName() +" "+purchaseitem.getProduct().getProdUnitValue()+" "+purchaseitem.getProduct().getUnity().getUniAbbreviation(), 
+                            Util.getFormatPrice(purchaseitem.getPriceValue()),
+                            getQuantity(purchaseitem),
+                            getTotal(purchaseitem)};
 
                         DefaultTableModel model = (DefaultTableModel) productTable.getModel();
                         model.addRow(row);
+                        productTable.changeSelection(productTable.getRowCount() - 1, 0, false, false);
                     }
                     else if(message.equals(AppConstants.Cashier.UPDATE_PURCHASE_ITEM) || message.equals(AppConstants.Cashier.NO_DELETE_PURCHASE))
                     {
@@ -1446,5 +1557,39 @@ public class CasherForm extends javax.swing.JFrame {
     public int getSimulatedBalance()
     {
         return Integer.parseInt(weight);
+    }
+    
+    public String getQuantity(Purchaseitem purchaseitem)
+    {
+        if(purchaseitem.getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar"))
+        {
+           String unity = purchaseitem.getProduct().getUnity().getUniAbbreviation();
+           switch(unity)
+           { 
+               case "gr":
+                   double fv = purchaseitem.getPurItemQuantity() / 1000.0;
+                   return String.format("%.3f", fv);
+                   
+           }
+        }
+        return purchaseitem.getPurItemQuantity()+"";
+    }
+    
+    public String getTotal(Purchaseitem purchaseitem)
+    {
+        if(purchaseitem.getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar"))
+        {
+           String unity = purchaseitem.getProduct().getUnity().getUniAbbreviation();
+           switch(unity)
+           { 
+               case "gr":
+                   double fv = purchaseitem.getPurItemQuantity()/1000.0;
+                   fv = fv * purchaseitem.getPriceValue();
+                   long round = Math.round(fv);
+                   return Util.getFormatPrice(round);
+                   
+           }
+        }
+        return Util.getFormatPrice(purchaseitem.getPurItemQuantity() * purchaseitem.getPriceValue());
     }
 }
