@@ -13,17 +13,24 @@ import desktopstore.util.Scale;
 import desktopstore.util.ScaleIP;
 import desktopstore.util.Util;
 import desktopstore.util.WordWrapCellRenderer;
+import entities.Brand;
 import entities.Cancelpurchaseauditorie;
+import entities.Category;
+import entities.Client;
 import entities.Price;
 import entities.Pricepurchase;
 import entities.Product;
 import entities.Purchase;
 import entities.Purchaseitem;
+import entities.Unity;
 import entities.User;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.io.FileReader;
 import java.io.IOException;
@@ -34,6 +41,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
@@ -43,6 +51,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import model.CancelpurchaseauditorieModel;
+import model.ClientModel;
 import model.PriceModel;
 import model.PricePurchaseModel;
 import model.ProductModel;
@@ -67,6 +76,7 @@ public class CashForm extends javax.swing.JFrame {
     private PricePurchaseModel pricePurchaseModel;
     private PurchaseitemModel purchaseitemModel;
     private CancelpurchaseauditorieModel cancelpurchaseauditorieModel;
+    private ClientModel clientModel;
     
     private static List<ScaleIP>listScaleIp;
     private Scale scale;
@@ -74,6 +84,8 @@ public class CashForm extends javax.swing.JFrame {
     private String weight;
     
     private List<Purchaseitem> purchaseitems;
+    private List<Purchase> purchasesResume;
+    private List productList;
     private Purchase purchase;
     private User cashier;
     private Product producWaitForWeight;
@@ -93,26 +105,41 @@ public class CashForm extends javax.swing.JFrame {
         purchaseModel = new PurchaseModel();
         purchaseitemModel = new PurchaseitemModel();
         cancelpurchaseauditorieModel = new CancelpurchaseauditorieModel();
+        clientModel = new ClientModel();
     }
     
     public void init()
     {
-       
+       Image img = new ImageIcon(getClass().getResource("/resources/ic_launcher.png")).getImage();
+       setIconImage(img);
        openCashPasswordDialog.pack();
        cancelSalePasswordDialog.pack();
        loadingDialog.pack();
        noActionDialog.pack();
        changeQuatityDialog.pack();
+       removeProductDialog.pack();
+       returnProductDialog.pack();
+       resumeDialog.pack();
+       totalDialog.pack();
+       addClientDialog.pack();
        openCashPasswordDialog.setLocationRelativeTo(null);
        cancelSalePasswordDialog.setLocationRelativeTo(null);
        loadingDialog.setLocationRelativeTo(null);
        noActionDialog.setLocationRelativeTo(null);
        changeQuatityDialog.setLocationRelativeTo(null);
+       removeProductDialog.setLocationRelativeTo(null);
+       returnProductDialog.setLocationRelativeTo(null);
+       selectProductDialog.setLocationRelativeTo(null);
+       resumeDialog.setLocationRelativeTo(null);
        
        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
        int width = (int)(screenSize.getWidth()/2);
        buttonsAndSearchPanel.setPreferredSize(new Dimension(width-6, 0));
        infoSalePanel.setPreferredSize(new Dimension(width-12, 0));
+       
+       selectProductDialog.setPreferredSize(new Dimension((int)screenSize.getWidth(),selectProductDialog.getPreferredSize().height));
+       
+       selectProductDialog.pack();
        
        clientAndTotalPanel.setVisible(false);
        scrollProductTable.setVisible(false);
@@ -345,74 +372,6 @@ public class CashForm extends javax.swing.JFrame {
         loadingDialog.setVisible(true);
     }
     
-   /*private void init()
-   {
-       
-       
-        openBtn = new javax.swing.JButton();
-        openBtn.setBackground(new java.awt.Color(255, 255, 255));
-        openBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sale/openDoor.png"))); // NOI18N
-        openBtn.setBorderPainted(false);
-        openBtn.setFocusable(false);
-        openBtn.setOpaque(true);
-        
-        exitBtn = new javax.swing.JButton();
-        exitBtn.setBackground(new java.awt.Color(255, 255, 255));
-        exitBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/sale/exitDoor.png"))); // NOI18N
-        exitBtn.setBorderPainted(false);
-        exitBtn.setFocusable(false);
-        exitBtn.setOpaque(true);
-        
-        
-        openBtn.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butonsPanel.remove(openBtn);
-                butonsPanel.revalidate();
-                butonsPanel.repaint();
-                
-                GroupLayout jPanel5Layout = new javax.swing.GroupLayout(butonsPanel);
-        butonsPanel.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                )
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                ))
-        );
-                
-            }
-        });
-        
-        
-        GroupLayout jPanel5Layout = new javax.swing.GroupLayout(butonsPanel);
-        butonsPanel.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                )
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                ))
-        );
-        
-        
-   }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -441,6 +400,31 @@ public class CashForm extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         txtChangeQuantityDialog = new javax.swing.JTextField();
         btnOkChangeQuantityDialog = new javax.swing.JButton();
+        removeProductDialog = new javax.swing.JDialog();
+        jLabel11 = new javax.swing.JLabel();
+        txtBarCodeRemoveProductDialog = new javax.swing.JTextField();
+        btnOkRemoveProductDialog = new javax.swing.JButton();
+        returnProductDialog = new javax.swing.JDialog();
+        jLabel12 = new javax.swing.JLabel();
+        txtReturnProductDialog = new javax.swing.JTextField();
+        btnOkReturnProductDialog = new javax.swing.JButton();
+        selectProductDialog = new javax.swing.JDialog();
+        scrollSelectProductDialogTable = new javax.swing.JScrollPane();
+        selectProductDialogTable = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        txtSelectProductDialog = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        resumeDialog = new javax.swing.JDialog();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        resumeDialogTable = new javax.swing.JTable();
+        btnResumeDialog = new javax.swing.JButton();
+        totalDialog = new javax.swing.JDialog();
+        lblTotalDialog = new javax.swing.JLabel();
+        btnTotalDialog = new javax.swing.JButton();
+        addClientDialog = new javax.swing.JDialog();
+        jLabel14 = new javax.swing.JLabel();
+        txtAddClientDialog = new javax.swing.JTextField();
+        btnAddClientDialog = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         rSLabelFecha2 = new rojeru_san.RSLabelFecha();
@@ -706,6 +690,403 @@ public class CashForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        removeProductDialog.setTitle("Quitar producto");
+        removeProductDialog.setModal(true);
+
+        jLabel11.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel11.setText("Código de barras:");
+
+        txtBarCodeRemoveProductDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtBarCodeRemoveProductDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBarCodeRemoveProductDialogActionPerformed(evt);
+            }
+        });
+        txtBarCodeRemoveProductDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBarCodeRemoveProductDialogKeyPressed(evt);
+            }
+        });
+
+        btnOkRemoveProductDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnOkRemoveProductDialog.setText("Aceptar");
+        btnOkRemoveProductDialog.setFocusable(false);
+        btnOkRemoveProductDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkRemoveProductDialogActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout removeProductDialogLayout = new javax.swing.GroupLayout(removeProductDialog.getContentPane());
+        removeProductDialog.getContentPane().setLayout(removeProductDialogLayout);
+        removeProductDialogLayout.setHorizontalGroup(
+            removeProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(removeProductDialogLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBarCodeRemoveProductDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, removeProductDialogLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnOkRemoveProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        removeProductDialogLayout.setVerticalGroup(
+            removeProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(removeProductDialogLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(removeProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBarCodeRemoveProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOkRemoveProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        returnProductDialog.setTitle("Devolución de prodcuto");
+        returnProductDialog.setModal(true);
+
+        jLabel12.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel12.setText("Código de barras:");
+
+        txtReturnProductDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtReturnProductDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtReturnProductDialogActionPerformed(evt);
+            }
+        });
+        txtReturnProductDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtReturnProductDialogKeyPressed(evt);
+            }
+        });
+
+        btnOkReturnProductDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnOkReturnProductDialog.setText("Aceptar");
+        btnOkReturnProductDialog.setFocusable(false);
+        btnOkReturnProductDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkReturnProductDialogActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout returnProductDialogLayout = new javax.swing.GroupLayout(returnProductDialog.getContentPane());
+        returnProductDialog.getContentPane().setLayout(returnProductDialogLayout);
+        returnProductDialogLayout.setHorizontalGroup(
+            returnProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(returnProductDialogLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtReturnProductDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(returnProductDialogLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnOkReturnProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        returnProductDialogLayout.setVerticalGroup(
+            returnProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(returnProductDialogLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(returnProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtReturnProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOkReturnProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        selectProductDialog.setTitle("Seleccione producto");
+        selectProductDialog.setModal(true);
+        selectProductDialog.setResizable(false);
+
+        selectProductDialogTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código de barras", "Nombre", "Presentación", "Categoria", "Marca", "Precio"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+
+                DefaultTableModel model = (DefaultTableModel) selectProductDialogTable.getModel();
+                String barcode = (String)model.getValueAt(row, 0);
+                selectProductDialog.setVisible(false);
+                searchAndAddProduct(barcode, false);
+                return false;
+            }
+
+        });
+        selectProductDialogTable.setFocusable(false);
+        selectProductDialogTable.setRowHeight(35);
+        selectProductDialogTable.setSelectionBackground(new java.awt.Color(223, 239, 252));
+        selectProductDialogTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        JTableHeader header2 = selectProductDialogTable.getTableHeader();
+        header2.setBackground(new Color(223, 239, 252));
+        header2.setForeground(new Color(46, 110, 158));
+        header2.setFont(new Font("SansSerif", Font.BOLD, 14));
+        Border border2 = BorderFactory.createLineBorder(new Color(116,201,226), 1);
+        header2.setBorder(border2);
+        header2.setReorderingAllowed(false);
+
+        TableCellRenderer rendererFromHeader2 = selectProductDialogTable.getTableHeader().getDefaultRenderer();
+        JLabel headerLabel2= (JLabel) rendererFromHeader2;
+        headerLabel2.setHorizontalAlignment(JLabel.CENTER);
+        headerLabel2.setPreferredSize(new Dimension(100,30));
+        selectProductDialogTable.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        scrollSelectProductDialogTable.setViewportView(selectProductDialogTable);
+
+        txtSelectProductDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtSelectProductDialog.setToolTipText("");
+        txtSelectProductDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSelectProductDialogActionPerformed(evt);
+            }
+        });
+        txtSelectProductDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSelectProductDialogKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSelectProductDialogKeyReleased(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel13.setText("Buscar nombre:");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSelectProductDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSelectProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
+        );
+
+        javax.swing.GroupLayout selectProductDialogLayout = new javax.swing.GroupLayout(selectProductDialog.getContentPane());
+        selectProductDialog.getContentPane().setLayout(selectProductDialogLayout);
+        selectProductDialogLayout.setHorizontalGroup(
+            selectProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(selectProductDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(selectProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollSelectProductDialogTable)
+                    .addGroup(selectProductDialogLayout.createSequentialGroup()
+                        .addGap(0, 287, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 457, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        selectProductDialogLayout.setVerticalGroup(
+            selectProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, selectProductDialogLayout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(scrollSelectProductDialogTable, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(108, 108, 108))
+        );
+
+        resumeDialog.setTitle("Reanudar venta");
+        resumeDialog.setModal(true);
+
+        resumeDialogTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Fecha"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+
+                resumePurchase(row);
+                return false;
+            }
+        });
+        resumeDialogTable.setFocusable(false);
+        resumeDialogTable.setRowHeight(35);
+        JTableHeader header3 = resumeDialogTable.getTableHeader();
+        header3.setBackground(new Color(223, 239, 252));
+        header3.setForeground(new Color(46, 110, 158));
+        header3.setFont(new Font("SansSerif", Font.BOLD, 14));
+        Border border3 = BorderFactory.createLineBorder(new Color(116,201,226), 1);
+        header3.setBorder(border3);
+        header3.setReorderingAllowed(false);
+
+        TableCellRenderer rendererFromHeader3 = resumeDialogTable.getTableHeader().getDefaultRenderer();
+        JLabel headerLabel3= (JLabel) rendererFromHeader3;
+        headerLabel3.setHorizontalAlignment(JLabel.CENTER);
+        headerLabel3.setPreferredSize(new Dimension(100,30));
+        resumeDialogTable.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        jScrollPane1.setViewportView(resumeDialogTable);
+
+        btnResumeDialog.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        btnResumeDialog.setText("Cerrar");
+        btnResumeDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResumeDialogActionPerformed(evt);
+            }
+        });
+        btnResumeDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnResumeDialogKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout resumeDialogLayout = new javax.swing.GroupLayout(resumeDialog.getContentPane());
+        resumeDialog.getContentPane().setLayout(resumeDialogLayout);
+        resumeDialogLayout.setHorizontalGroup(
+            resumeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resumeDialogLayout.createSequentialGroup()
+                .addContainerGap(269, Short.MAX_VALUE)
+                .addComponent(btnResumeDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(269, Short.MAX_VALUE))
+            .addGroup(resumeDialogLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        resumeDialogLayout.setVerticalGroup(
+            resumeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(resumeDialogLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnResumeDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        totalDialog.setTitle("Total del dia");
+        totalDialog.setModal(true);
+
+        lblTotalDialog.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        lblTotalDialog.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        btnTotalDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnTotalDialog.setText("Aceptar");
+        btnTotalDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTotalDialogActionPerformed(evt);
+            }
+        });
+        btnTotalDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnTotalDialogKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout totalDialogLayout = new javax.swing.GroupLayout(totalDialog.getContentPane());
+        totalDialog.getContentPane().setLayout(totalDialogLayout);
+        totalDialogLayout.setHorizontalGroup(
+            totalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTotalDialog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(totalDialogLayout.createSequentialGroup()
+                .addContainerGap(160, Short.MAX_VALUE)
+                .addComponent(btnTotalDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(172, Short.MAX_VALUE))
+        );
+        totalDialogLayout.setVerticalGroup(
+            totalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalDialogLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(lblTotalDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTotalDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        addClientDialog.setTitle("Agregar cliente");
+        addClientDialog.setModal(true);
+
+        jLabel14.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel14.setText("Número de identificación:");
+
+        txtAddClientDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtAddClientDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAddClientDialogActionPerformed(evt);
+            }
+        });
+        txtAddClientDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtAddClientDialogKeyPressed(evt);
+            }
+        });
+
+        btnAddClientDialog.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        btnAddClientDialog.setText("Aceptar");
+        btnAddClientDialog.setFocusable(false);
+        btnAddClientDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddClientDialogActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout addClientDialogLayout = new javax.swing.GroupLayout(addClientDialog.getContentPane());
+        addClientDialog.getContentPane().setLayout(addClientDialogLayout);
+        addClientDialogLayout.setHorizontalGroup(
+            addClientDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addClientDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAddClientDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(addClientDialogLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAddClientDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        addClientDialogLayout.setVerticalGroup(
+            addClientDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addClientDialogLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(addClientDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtAddClientDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAddClientDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setExtendedState(6);
@@ -960,6 +1341,16 @@ public class CashForm extends javax.swing.JFrame {
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+
+                String myString =purchaseitems.get(row).getProduct().getProdBarCode();
+                StringSelection stringSelection = new StringSelection(myString);
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(stringSelection, null);
+                return false;
+            }
         });
         productTable.setFocusable(false);
         productTable.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
@@ -980,7 +1371,6 @@ public class CashForm extends javax.swing.JFrame {
         header.setPreferredSize(new Dimension(100,30));
 
         productTable.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        productTable.setEnabled(false);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
         productTable.setDefaultRenderer(String.class, centerRenderer);
@@ -1110,12 +1500,124 @@ public class CashForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtChangeQuantityDialogKeyPressed
 
+    private void txtBarCodeRemoveProductDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBarCodeRemoveProductDialogActionPerformed
+        removeProduct();
+    }//GEN-LAST:event_txtBarCodeRemoveProductDialogActionPerformed
+
+    private void txtBarCodeRemoveProductDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBarCodeRemoveProductDialogKeyPressed
+        if (evt.getKeyCode() == 27) {
+            removeProductDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_txtBarCodeRemoveProductDialogKeyPressed
+
+    private void btnOkRemoveProductDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkRemoveProductDialogActionPerformed
+        removeProduct();
+    }//GEN-LAST:event_btnOkRemoveProductDialogActionPerformed
+
+    private void txtReturnProductDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReturnProductDialogActionPerformed
+        String codeForReturn = txtReturnProductDialog.getText();
+        if(!codeForReturn.isEmpty())
+        {
+            searchAndAddProduct(codeForReturn, true);
+            returnProductDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_txtReturnProductDialogActionPerformed
+
+    private void btnOkReturnProductDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkReturnProductDialogActionPerformed
+        String codeForReturn = txtReturnProductDialog.getText();
+        if(!codeForReturn.isEmpty())
+        {
+            searchAndAddProduct(codeForReturn, true);
+            returnProductDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_btnOkReturnProductDialogActionPerformed
+
+    private void txtReturnProductDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReturnProductDialogKeyPressed
+        if (evt.getKeyCode() == 27) {
+            returnProductDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_txtReturnProductDialogKeyPressed
+
+    private void txtSelectProductDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSelectProductDialogActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSelectProductDialogActionPerformed
+
+    private void txtSelectProductDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSelectProductDialogKeyPressed
+        if (evt.getKeyCode() == 27) {
+            selectProductDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_txtSelectProductDialogKeyPressed
+
+    private void txtSelectProductDialogKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSelectProductDialogKeyReleased
+        String search = txtSelectProductDialog.getText();
+            DefaultTableModel model = (DefaultTableModel) selectProductDialogTable.getModel();
+            model.setRowCount(0);
+            for (int i = 0; i < productList.size(); i++) {
+                Object[] objects = (Object[]) productList.get(i);
+                Product p = (Product) objects[0];
+                Price pr = (Price) objects[1];
+                Brand b = (Brand) objects[2];
+                Category c = (Category) objects[3];
+                Unity u = (Unity) objects[4];
+
+                String name = p.getProdName().toLowerCase();
+                if(search.isEmpty() || name.contains(search.toLowerCase())){
+                    Object[] row = {p.getProdBarCode(), p.getProdName(),
+                        p.getProdUnitValue() + " " + u.getUniAbbreviation(),
+                        c.getCatName(), b.getBrandName(), Util.getFormatPrice(pr.getPriceValue())};
+
+                    model.addRow(row);
+                }
+            }
+    }//GEN-LAST:event_txtSelectProductDialogKeyReleased
+
+    private void btnResumeDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnResumeDialogKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == 27) {
+            resumeDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_btnResumeDialogKeyPressed
+
+    private void btnResumeDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResumeDialogActionPerformed
+        resumeDialog.setVisible(false);
+    }//GEN-LAST:event_btnResumeDialogActionPerformed
+
+    private void btnTotalDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnTotalDialogKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == 27) {
+            totalDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_btnTotalDialogKeyPressed
+
+    private void btnTotalDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTotalDialogActionPerformed
+        totalDialog.setVisible(false);
+    }//GEN-LAST:event_btnTotalDialogActionPerformed
+
+    private void txtAddClientDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddClientDialogActionPerformed
+       addClient();
+    }//GEN-LAST:event_txtAddClientDialogActionPerformed
+
+    private void txtAddClientDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAddClientDialogKeyPressed
+        if (evt.getKeyCode() == 27)
+        {
+            addClientDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_txtAddClientDialogKeyPressed
+
+    private void btnAddClientDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClientDialogActionPerformed
+        addClient();
+    }//GEN-LAST:event_btnAddClientDialogActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog addClientDialog;
+    private javax.swing.JButton btnAddClientDialog;
     private javax.swing.JButton btnOkCancelSale;
     private javax.swing.JButton btnOkChangeQuantityDialog;
     private javax.swing.JButton btnOkNoAction;
     private javax.swing.JButton btnOkOpenCash;
+    private javax.swing.JButton btnOkRemoveProductDialog;
+    private javax.swing.JButton btnOkReturnProductDialog;
     private javax.swing.JButton btnReadCode;
+    private javax.swing.JButton btnResumeDialog;
+    private javax.swing.JButton btnTotalDialog;
     private javax.swing.JPanel butonsPanel;
     private javax.swing.JPanel buttonsAndSearchPanel;
     private javax.swing.JDialog cancelSalePasswordDialog;
@@ -1125,6 +1627,10 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JPanel infoSalePanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1138,21 +1644,36 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNameClient;
     private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblTotalDialog;
     private javax.swing.JDialog loadingDialog;
     private javax.swing.JDialog noActionDialog;
     private javax.swing.JDialog openCashPasswordDialog;
     private javax.swing.JTable productTable;
     private rojeru_san.RSLabelFecha rSLabelFecha2;
     private rojeru_san.RSLabelHora rSLabelHora1;
+    private javax.swing.JDialog removeProductDialog;
+    private javax.swing.JDialog resumeDialog;
+    private javax.swing.JTable resumeDialogTable;
+    private javax.swing.JDialog returnProductDialog;
     private javax.swing.JScrollPane scrollProductTable;
+    private javax.swing.JScrollPane scrollSelectProductDialogTable;
+    private javax.swing.JDialog selectProductDialog;
+    private javax.swing.JTable selectProductDialogTable;
+    private javax.swing.JDialog totalDialog;
+    private javax.swing.JTextField txtAddClientDialog;
+    private javax.swing.JTextField txtBarCodeRemoveProductDialog;
     private javax.swing.JPasswordField txtCancelSalepassword;
     private javax.swing.JTextField txtChangeQuantityDialog;
     private javax.swing.JPasswordField txtOpenCashPassword;
+    private javax.swing.JTextField txtReturnProductDialog;
+    private javax.swing.JTextField txtSelectProductDialog;
     private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables
     private JButton openBtn; 
@@ -1190,14 +1711,8 @@ public class CashForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     } 
     
-    private void selectBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-        
-        System.out.println("width: "+width);
-        System.out.println("height: "+height);
+    private void selectBtnActionPerformed(java.awt.event.ActionEvent evt) {  
+        openSelectProduct();
     }    
     
     private void changeQuantitybtnActionPerformed(java.awt.event.ActionEvent evt) {                                                  
@@ -1206,7 +1721,8 @@ public class CashForm extends javax.swing.JFrame {
     } 
     
     private void removeProductBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
+        txtBarCodeRemoveProductDialog.setText("");
+        removeProductDialog.setVisible(true);
     } 
     
     private void addToBacketBtnActionPerformed(java.awt.event.ActionEvent evt) {                                               
@@ -1214,7 +1730,7 @@ public class CashForm extends javax.swing.JFrame {
     }  
     
     private void resumeBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+        resumeSale();
     } 
     
     private void searchProductBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                 
@@ -1222,11 +1738,14 @@ public class CashForm extends javax.swing.JFrame {
     } 
     
     private void returnProductBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
+        txtReturnProductDialog.setText("");
+        returnProductDialog.setVisible(true);
     } 
     
     private void addClientBtnActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        // TODO add your handling code here:
+        addClientDialog.setLocationRelativeTo(null);
+        txtAddClientDialog.setText("");
+        addClientDialog.setVisible(true);
     }
     
     private void searchClientBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                
@@ -1234,7 +1753,7 @@ public class CashForm extends javax.swing.JFrame {
     } 
     
     private void totalBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        currentDayTotal();
     } 
     
     public void readCode()
@@ -1306,7 +1825,9 @@ public class CashForm extends javax.swing.JFrame {
             case "004":
                 if(addClientBtn.isVisible())
                 {
-                    //openAddClient();
+                    addClientDialog.setLocationRelativeTo(null);
+                    txtAddClientDialog.setText("");
+                    addClientDialog.setVisible(true);
                 }
                 else
                 {
@@ -1316,7 +1837,8 @@ public class CashForm extends javax.swing.JFrame {
             case "030":
                 if(removeProductBtn.isVisible())
                 {
-                    //openRemoveProducto();
+                    txtBarCodeRemoveProductDialog.setText("");
+                    removeProductDialog.setVisible(true);
                 }
                 else
                 {
@@ -1356,7 +1878,7 @@ public class CashForm extends javax.swing.JFrame {
             case "006":
                 if(selectBtn.isVisible())
                 {
-                    //openSelectProduct();
+                    openSelectProduct();
                 }
                 else
                 {
@@ -1366,7 +1888,7 @@ public class CashForm extends javax.swing.JFrame {
             case "007":
                 if(resumeBtn.isVisible())
                 {
-                    //resumeSale(onSesionUserController);
+                    resumeSale();
                 }
                 else
                 {
@@ -1376,7 +1898,7 @@ public class CashForm extends javax.swing.JFrame {
             case "008":
                 if(totalBtn.isVisible())
                 {
-                    //openCurrentDayTotal();
+                   currentDayTotal();
                 }
                 else{
                     noActionDialog.setVisible(true);
@@ -1385,7 +1907,8 @@ public class CashForm extends javax.swing.JFrame {
             case "009":
                 if(returnProductBtn.isVisible())
                 {
-                    //openReturnProducto();
+                    txtReturnProductDialog.setText("");
+                    returnProductDialog.setVisible(true);
                 }
                 else
                 {
@@ -1519,7 +2042,7 @@ public class CashForm extends javax.swing.JFrame {
         cancelBtn.setVisible(true);
         selectBtn.setVisible(true);
         searchProductBtn.setVisible(true);
-        removeProductBtn.setVisible(true);
+        returnProductBtn.setVisible(true);
         searchClientBtn.setVisible(true);
         
         GroupLayout jPanel5Layout = new javax.swing.GroupLayout(butonsPanel);
@@ -1534,7 +2057,7 @@ public class CashForm extends javax.swing.JFrame {
                 .addGap(2, 2, 2)
                 .addComponent(searchProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
-                .addComponent(removeProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1547,7 +2070,7 @@ public class CashForm extends javax.swing.JFrame {
                     .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     ))
         );
@@ -1618,11 +2141,9 @@ public class CashForm extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) productTable.getModel();
         if (purchaseitems.size() == 1) {
-            int rowCount = model.getRowCount();
-            for (int i = rowCount - 1; i >= 0; i--) {
-                model.removeRow(i);
-            }
+            model.setRowCount(0);
         }
+        
         model.addRow(row);
         productTable.changeSelection(productTable.getRowCount() - 1, 0, false, false);
         calculateAmountTotal();
@@ -1640,6 +2161,11 @@ public class CashForm extends javax.swing.JFrame {
         addClientBtn.setVisible(true);
         searchClientBtn.setVisible(true);
         scrollProductTable.setVisible(true);
+        
+        if(!clientAndTotalPanel.isVisible())
+        {
+            clientAndTotalPanel.setVisible(true);
+        }
         
         GroupLayout jPanel5Layout = new javax.swing.GroupLayout(butonsPanel);
         butonsPanel.setLayout(jPanel5Layout);
@@ -1685,10 +2211,7 @@ public class CashForm extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) productTable.getModel();
         
-        int rowCount = model.getRowCount();
-        for (int i = rowCount - 1; i >= 0; i--) {
-            model.removeRow(i);
-        }
+        model.setRowCount(0);
         
         for(Purchaseitem purchaseitem: purchaseitems){
             Object[] row = {purchaseitem.getProduct().getProdBarCode(),
@@ -1774,9 +2297,6 @@ public class CashForm extends javax.swing.JFrame {
             @Override
             protected ResultAddProduct doInBackground() {
                 String c = code;
-                if (isReturnProduct) {
-                    //c = codeForReturn;
-                }
                 Product product = productModel.findByBarCode(c);
                 if (product != null) {
                     boolean productType = product.getProducttype().getProdtypeValue().equals("Sin empaquetar");
@@ -2131,35 +2651,255 @@ public class CashForm extends javax.swing.JFrame {
         }.execute();
         changeQuatityDialog.setVisible(false);
         loadingDialog.setVisible(true);
-        
-        
-        
-        /*if(!quantity.isEmpty())
-        {
-            try
-            {
-                int q = Integer.parseInt(quantity);
-                if(q>0)
+    }
+    
+    
+    public void removeProduct()
+    {
+        new SwingWorker<Boolean, String>(){
+            @Override
+            protected Boolean doInBackground(){
+                String codeForRemove = txtBarCodeRemoveProductDialog.getText();
+                if(!codeForRemove.isEmpty())
                 {
-                    int index = purchaseitems.size() -1;
-                    if(purchaseitems.get(index).getPurItemQuantity()<0)
-                    {
-                        q = q*-1;
+                    Product product = productModel.findByBarCode(codeForRemove);
+                    if (product != null) {
+                        for (int i = purchaseitems.size() - 1; i >= 0; i--) {
+                            Purchaseitem p = purchaseitems.get(i);
+                            if (p.getProduct().getProdBarCode().equals(product.getProdBarCode())) {
+                                purchaseitems.remove(i);
+                            }
+                        }
+                        purchaseitemModel.deleteByPurIdAndProdId(purchase.getPurId(), product.getProdId());
+                        if (purchaseitems.isEmpty()) {
+                            purchaseModel.delete(purchase);
+                            purchaseitems = null;
+                            purchase = null;
+                        }
+                        return true;
                     }
-                            
-                    purchaseitems.get(index).setPurItemQuantity(q);
-                    purchaseItemEJB.edit(purchaseitems.get(index));
-                    Util.update(":formCode:focusCode");
-                    Util.closeDialog("openChangeQuantityProduct");
-                    Util.update(":formSaleDescription");
                 }
-                
+                return false;
             }
-            catch(NumberFormatException e)
-            {
-                
+            @Override
+            protected void done() {
+                try {
+                    boolean result = get();
+                    loadingDialog.setVisible(false);
+                    if(result)
+                    {
+                        if(purchase== null)
+                        {
+                            addToBacketView();
+                        }
+                        else{
+                           boolean isProductType = purchaseitems.get(purchaseitems.size() -1).getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar");
+                           updatePurchaseItemView(isProductType); 
+                        }
+                        
+                    }
+                    else
+                    {
+                        
+                        removeProductDialog.setVisible(true);
+                    }
+                } catch (InterruptedException | ExecutionException ex) {
+                   ex.printStackTrace();
+                }
             }
-        }*/
+        }.execute();
+        removeProductDialog.setVisible(false);
+        loadingDialog.setVisible(true);
+    }
+    
+    private void openSelectProduct()
+    {
+        new SwingWorker<List, Void>(){
+            @Override
+            protected List doInBackground(){
+                List Products= productModel.findAllProducts();
+                return Products;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    productList = get();
+                    DefaultTableModel model = (DefaultTableModel) selectProductDialogTable.getModel();
+                    model.setRowCount(0);
+                    for(int i=0;i<productList.size();i++)
+                    {
+                        Object[] objects = (Object[])productList.get(i);
+                        Product p = (Product)objects[0];
+                        Price pr = (Price)objects[1];
+                        Brand b = (Brand)objects[2];
+                        Category c = (Category)objects[3];
+                        Unity u = (Unity)objects[4];
+                        
+                        Object[] row = {p.getProdBarCode(),p.getProdName(),
+                            p.getProdUnitValue()+" "+u.getUniAbbreviation(),
+                            c.getCatName(),b.getBrandName(),Util.getFormatPrice(pr.getPriceValue())};
+                        
+                        model.addRow(row);
+                    }
+                    loadingDialog.setVisible(false);
+                    selectProductDialog.setLocationRelativeTo(null);
+                    txtSelectProductDialog.setText("");
+                    selectProductDialog.setVisible(true);
+                } catch (InterruptedException | ExecutionException ex) {
+                   ex.printStackTrace();
+                }
+            }
+            
+        }.execute();
+        loadingDialog.setVisible(true);
+    }
+    
+    
+    private void resumeSale()
+    {
+        new SwingWorker<List<Purchase>, Void>(){
+            @Override
+            protected List<Purchase> doInBackground(){
+                List<Purchase> purchases= purchaseModel.findSaleForResume(cashier.getUsId());
+                return purchases;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    purchasesResume = get();
+                    DefaultTableModel model = (DefaultTableModel) resumeDialogTable.getModel();
+                    model.setRowCount(0);
+                    for(Purchase purchase: purchasesResume)
+                    {
+                        
+                        Object[] row = {purchase.getPurDate()};
+                        
+                        model.addRow(row);
+                    }
+                    loadingDialog.setVisible(false);
+                    resumeDialog.setLocationRelativeTo(null);
+                    resumeDialog.setVisible(true);
+                } catch (InterruptedException | ExecutionException ex) {
+                   ex.printStackTrace();
+                }
+            }
+            
+        }.execute();
+        loadingDialog.setVisible(true);
+    }
+    
+    private void resumePurchase(int index)
+    {
+        purchase = purchasesResume.get(0);
+        new SwingWorker<List<Purchaseitem>, Void>(){
+            @Override
+            protected List<Purchaseitem> doInBackground(){
+                return purchaseitemModel.findByPurId(purchase.getPurId());
+            }
+
+            @Override
+            protected void done() {
+                loadingDialog.setVisible(false);
+                try {
+                    purchaseitems = get();
+                    boolean isProductType = purchaseitems.get(purchaseitems.size()-1).getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar");
+                    updatePurchaseItemView(isProductType);
+                    if(purchase.getClient()!=null)
+                    {
+                        lblNameClient.setText(purchase.getClient().getCliName()+" "+purchase.getClient().getCliLastName());
+                    }
+                } catch (InterruptedException | ExecutionException ex) {
+                   ex.printStackTrace();
+                }
+            }
+            
+        }.execute();
+        resumeDialog.setVisible(false);
+        loadingDialog.setVisible(true);
+    }
+    
+    
+    private void currentDayTotal()
+    {
+        new SwingWorker<Integer, Void>(){
+            @Override
+            protected Integer doInBackground(){
+                Calendar now = Calendar.getInstance();
+                now.set(Calendar.HOUR_OF_DAY, 0);
+                now.set(Calendar.MINUTE, 0);
+                now.set(Calendar.SECOND, 0);
+                Date initial = now.getTime();
+                now.set(Calendar.HOUR_OF_DAY, 23);
+                now.set(Calendar.MINUTE, 59);
+                now.set(Calendar.SECOND, 59);
+                Date end = now.getTime();
+                List<Purchase> plist = purchaseModel.findPurshaseUsIdAndDay(cashier.getUsId(), initial, end);
+                int amount = 0;
+                for (Purchase p : plist) {
+                    amount = amount + p.getPurFinalAmount();
+                }
+                return amount;
+            }
+
+            @Override
+            protected void done() {
+                loadingDialog.setVisible(false);
+                try {
+                    int amount = get();
+                    lblTotalDialog.setText("Total: "+ Util.getFormatPrice(amount));
+                    totalDialog.setLocationRelativeTo(null);
+                    totalDialog.setVisible(true);
+                } catch (InterruptedException | ExecutionException ex) {
+                   ex.printStackTrace();
+                }
+            }
+            
+        }.execute();
+        loadingDialog.setVisible(true);
+    }
+    
+    
+    private void addClient()
+    {
+        new SwingWorker<Boolean, Void>(){
+            @Override
+            protected Boolean doInBackground(){
+                String identification = txtAddClientDialog.getText();
+                if (!identification.isEmpty()) {
+                    Client client = clientModel.findByCliIdentity(identification);
+                    if (client != null) {
+                        purchase.setClient(client);
+                        purchaseModel.update(purchase);
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            protected void done() {
+                loadingDialog.setVisible(false);
+                try {
+                    boolean resp = get();
+                    if(resp)
+                    {
+                        lblNameClient.setText(purchase.getClient().getCliName()+" "+purchase.getClient().getCliLastName());
+                    }
+                    else
+                    {
+                        addClientDialog.setLocationRelativeTo(null);
+                        addClientDialog.setVisible(true);
+                    }
+                } catch (InterruptedException | ExecutionException ex) {
+                   ex.printStackTrace();
+                }
+            }
+            
+        }.execute();
+        addClientDialog.setVisible(false);
+        loadingDialog.setVisible(true);
     }
     
 }

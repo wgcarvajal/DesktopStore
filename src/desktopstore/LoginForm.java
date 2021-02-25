@@ -9,7 +9,9 @@ import desktopstore.util.Encrypt;
 import entities.User;
 import entities.Usergroup;
 import java.awt.Color;
+import java.awt.Image;
 import java.util.concurrent.ExecutionException;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -204,6 +206,7 @@ public class LoginForm extends JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void login() {
+        
         new SwingWorker<String,String>(){
             @Override
             protected String doInBackground()  {
@@ -270,6 +273,8 @@ public class LoginForm extends JFrame {
         panel.setBorder(line);
         loadingDialog.pack();
         loadingDialog.setLocationRelativeTo(null);
+        Image img = new ImageIcon(getClass().getResource("/resources/ic_launcher.png")).getImage();
+        setIconImage(img);
     }
     
 }

@@ -8,6 +8,7 @@ package model;
 import entities.Product;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -49,6 +50,30 @@ public class ProductModel extends AbstractModel<Product>{
         }
         return (results!=null && !results.isEmpty())?results.get(0):null;
         
+    }
+    
+    public List findAllProducts()
+    {
+        Session session = null;
+        Transaction transaction = null;
+        session = sessionFactory.openSession();
+        List list = null;
+        try {
+                transaction = session.beginTransaction();
+                Query query = session.createQuery("SELECT p,pr,b,c,u FROM Product p INNER JOIN p.prices pr "
+                        + "INNER JOIN p.brand b "
+                        + "INNER JOIN p.category c "
+                        + "INNER JOIN p.unity u WHERE pr.product.prodId = p.prodId And pr.priceFinalDate IS NULL") ;
+                list = query.list();
+                transaction.commit();
+        } catch (Exception e) {
+                if(transaction != null) {
+                        transaction.rollback();
+                }
+        } finally {
+                session.close();
+        }
+        return list;
     }
     
 }
