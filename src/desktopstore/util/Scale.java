@@ -60,29 +60,31 @@ public class Scale implements SerialPortEventListener {
     
     private boolean initSerialPort()
     {
-        Enumeration<CommPortIdentifier> portEnum =
-                CommPortIdentifier.getPortIdentifiers();
-               
-        while ( portEnum.hasMoreElements() ) {
-            portIdentifier = portEnum.nextElement();
- 
-           if(portIdentifier.getName().equals(portName)
-                    && portIdentifier.getPortType() == CommPortIdentifier.PORT_SERIAL)
-           {
-               
-               try {    //try to open the port
-                        serialPort = (SerialPort)portIdentifier.open("SerialPort", 2000);
+        try{
+            Enumeration<CommPortIdentifier> portEnum
+                    = CommPortIdentifier.getPortIdentifiers();
+
+            while (portEnum.hasMoreElements()) {
+                portIdentifier = portEnum.nextElement();
+
+                if (portIdentifier.getName().equals(portName)
+                        && portIdentifier.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+
+                    try {    //try to open the port
+                        serialPort = (SerialPort) portIdentifier.open("SerialPort", 2000);
                         return true;
-               }
-               catch (PortInUseException e) {
-                    Util.logError(TAG, "initSerialPort", "Port "  + portIdentifier.getName() + " is in use.");
-                    return false;
+                    } catch (PortInUseException e) {
+                        Util.logError(TAG, "initSerialPort", "Port " + portIdentifier.getName() + " is in use.");
+                        return false;
+                    } catch (Exception e) {
+                        Util.logError(TAG, "initSerialPort", e.getMessage());
+                        return false;
+                    }
                 }
-               catch (Exception e) {
-                   Util.logError(TAG, "initSerialPort",e.getMessage());
-                   return false;
-                }
-           }
+            }
+        }catch(UnsatisfiedLinkError | NoClassDefFoundError  e)
+        {
+            
         }
         return false;
     }

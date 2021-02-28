@@ -5,6 +5,9 @@
  */
 package desktopstore;
 
+import gnu.io.CommPortIdentifier;
+import java.util.Enumeration;
+
 /**
  *
  * @author aranda
@@ -15,7 +18,6 @@ public class DesktopStore {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
         
         java.awt.EventQueue.invokeLater(() -> {
             LoginForm loginForm = new  LoginForm();

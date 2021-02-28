@@ -9,9 +9,7 @@ import desktopstore.util.Encrypt;
 import entities.User;
 import entities.Usergroup;
 import java.awt.Color;
-import java.awt.Image;
 import java.util.concurrent.ExecutionException;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -43,9 +41,6 @@ public class LoginForm extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        loadingDialog = new javax.swing.JDialog();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         panel = new javax.swing.JPanel();
         tittle = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -53,44 +48,7 @@ public class LoginForm extends JFrame {
         jLabel1 = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
-
-        loadingDialog.setModal(true);
-        loadingDialog.setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/carga.gif"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(8, Short.MAX_VALUE))
-        );
-
-        loadingDialog.setUndecorated(true);
-
-        javax.swing.GroupLayout loadingDialogLayout = new javax.swing.GroupLayout(loadingDialog.getContentPane());
-        loadingDialog.getContentPane().setLayout(loadingDialogLayout);
-        loadingDialogLayout.setHorizontalGroup(
-            loadingDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        loadingDialogLayout.setVerticalGroup(
-            loadingDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loadingDialogLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        lblLoading = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -117,6 +75,9 @@ public class LoginForm extends JFrame {
             }
         });
 
+        lblLoading.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        lblLoading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/carga.gif"))); // NOI18N
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -136,9 +97,15 @@ public class LoginForm extends JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnLogin)
-                            .addComponent(password))))
+                            .addComponent(password)
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addComponent(btnLogin)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap(99, Short.MAX_VALUE))
+            .addGroup(panelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblLoading)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,7 +122,9 @@ public class LoginForm extends JFrame {
                     .addComponent(password))
                 .addGap(18, 18, 18)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblLoading)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -172,7 +141,7 @@ public class LoginForm extends JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(40, Short.MAX_VALUE)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -196,9 +165,7 @@ public class LoginForm extends JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JDialog loadingDialog;
+    private javax.swing.JLabel lblLoading;
     private javax.swing.JPanel panel;
     private javax.swing.JPasswordField password;
     private javax.swing.JLabel tittle;
@@ -206,7 +173,10 @@ public class LoginForm extends JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void login() {
-        
+        username.setEnabled(false);
+        password.setEnabled(false);
+        btnLogin.setEnabled(false);
+        lblLoading.setVisible(true);
         new SwingWorker<String,String>(){
             @Override
             protected String doInBackground()  {
@@ -240,16 +210,18 @@ public class LoginForm extends JFrame {
 
             @Override
             protected void done() {
+                username.setEnabled(true);
+                password.setEnabled(true);
+                btnLogin.setEnabled(true);
+                lblLoading.setVisible(false);
                 try {
-                    loadingDialog.setVisible(false);
                     String result = get();
                     if(result.equals("cashier")){
                         CashForm cashForm = new CashForm();
                         cashForm.setCashier(user);
                         cashForm.init();
                         cashForm.setVisible(true);
-                        //cashForm.closeView();
-                        setVisible(false);
+                        LoginForm.this.dispose();
                     }
                     else if(result.equals("admin")){
                         
@@ -262,7 +234,6 @@ public class LoginForm extends JFrame {
                 }
             }
         }.execute();
-        loadingDialog.setVisible(true);
     }
     
     public void setValue()
@@ -271,10 +242,7 @@ public class LoginForm extends JFrame {
         panel.setBackground(Color.WHITE);
         LineBorder line = new LineBorder(Color.blue, 1, true);
         panel.setBorder(line);
-        loadingDialog.pack();
-        loadingDialog.setLocationRelativeTo(null);
-        Image img = new ImageIcon(getClass().getResource("/resources/ic_launcher.png")).getImage();
-        setIconImage(img);
+        lblLoading.setVisible(false);
     }
     
 }

@@ -14,7 +14,7 @@ import org.hibernate.criterion.Restrictions;
 
 /**
  *
- * @author aranda
+ * @author Wilson Carvajal
  */
 public class ClientModel extends AbstractModel<Client>{
     
