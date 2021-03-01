@@ -17,6 +17,7 @@ public final class AppConstants {
         String NO_DELETE_PURCHASE= "noDeletePurchase";
         String UPDATE_PURCHASE_ITEM = "updatePurchaseItem";
         String CREATE_PURCHASE_ITEM = "createPurchaseItem";
+        String AUTOMATIC_READ_WEIGHT = "automaticReadWeight";
         String OPEN_ADD_WEIGHT = "openAddWeight";
     }
     

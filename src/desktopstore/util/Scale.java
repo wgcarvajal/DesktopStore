@@ -111,7 +111,7 @@ public class Scale implements SerialPortEventListener {
         }
     }
     
-    public void stop()
+    public synchronized void stop()
     {
         try{
             serialPort.removeEventListener();
@@ -123,7 +123,7 @@ public class Scale implements SerialPortEventListener {
     }
 
     @Override
-    public void serialEvent(SerialPortEvent serialPortEvent) {
+    public synchronized void serialEvent(SerialPortEvent serialPortEvent) {
         try {
             int value;
             String[] values = new String[0];
@@ -155,8 +155,9 @@ public class Scale implements SerialPortEventListener {
                 gramos = gramos + values[2];
             }
 
-            System.out.println(gramos);
             weight = gramos;
+            System.out.println(gramos);
+            
 
         } catch (IOException e) {
             Util.logError(TAG, "serialEvent",e.getMessage());

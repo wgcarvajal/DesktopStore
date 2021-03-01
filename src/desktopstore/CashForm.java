@@ -878,7 +878,7 @@ public class CashForm extends javax.swing.JFrame {
 
                 DefaultTableModel model = (DefaultTableModel) selectProductDialogTable.getModel();
                 String barcode = (String)model.getValueAt(row, 0);
-                searchAndAddProduct(barcode, false,true);
+                searchAndAddProduct(barcode, false);
                 selectProductDialog.dispose();
                 return false;
             }
@@ -1831,7 +1831,7 @@ public class CashForm extends javax.swing.JFrame {
         String codeForReturn = txtReturnProductDialog.getText();
         if(!codeForReturn.isEmpty())
         {
-            searchAndAddProduct(codeForReturn, true,true);
+            searchAndAddProduct(codeForReturn, true);
             returnProductDialog.dispose();
         }
     }//GEN-LAST:event_txtReturnProductDialogActionPerformed
@@ -1840,7 +1840,7 @@ public class CashForm extends javax.swing.JFrame {
         String codeForReturn = txtReturnProductDialog.getText();
         if(!codeForReturn.isEmpty())
         {
-            searchAndAddProduct(codeForReturn, true,true);
+            searchAndAddProduct(codeForReturn, true);
             returnProductDialog.dispose();
         }
     }//GEN-LAST:event_btnOkReturnProductDialogActionPerformed
@@ -1961,7 +1961,7 @@ public class CashForm extends javax.swing.JFrame {
                 int d = Integer.parseInt(w);
                 weight = w;
                 addWeightDialog.dispose();
-                searchAndAddProduct("", true, false);
+                proccessManualWeight();
             }
             catch(Exception e)
             {
@@ -1978,7 +1978,7 @@ public class CashForm extends javax.swing.JFrame {
                 int d = Integer.parseInt(w);
                 weight = w;
                 addWeightDialog.dispose();
-                searchAndAddProduct("", true, false);
+                proccessManualWeight();
             }
             catch(Exception e)
             {
@@ -2330,7 +2330,11 @@ public class CashForm extends javax.swing.JFrame {
             default:
                 if(selectBtn.isVisible())
                 {
-                    searchAndAddProduct(code,false,true);
+                    if(code.length()>12)
+                    {
+                        code = code.substring(0, 12);
+                    }
+                    searchAndAddProduct(code,false);
                 }
                 break;
         }
@@ -2462,6 +2466,8 @@ public class CashForm extends javax.swing.JFrame {
     
     public void addToBacketView()
     {
+        stopScale();
+        initScale();
         removeButtons();
         lblNameClient.setText("");
         lblTotal.setText("$0 ");
@@ -2724,13 +2730,12 @@ public class CashForm extends javax.swing.JFrame {
         }.execute();
     }
     
-    private void searchAndAddProduct(String code,boolean isReturnProduct,boolean notIsFromWaitWeightDialog)
+    private void searchAndAddProduct(String code,boolean isReturnProduct)
     {
         startLoading();
         new SwingWorker<ResultAddProduct, ResultAddProduct>() {
             @Override
             protected ResultAddProduct doInBackground() {
-                if (notIsFromWaitWeightDialog) {
                     String c = code;
                     Product product = productModel.findByBarCode(c);
                     if (product != null) {
@@ -2738,10 +2743,10 @@ public class CashForm extends javax.swing.JFrame {
                         if (!productType) {
                             return addProduct(product, productType, isReturnProduct);
                         } else {
+                            ResultAddProduct result = new ResultAddProduct();
+                            isReturnProductWeight = isReturnProduct;
                             producWaitForWeight = product;
-                            initScale();
-                            ResultAddProduct result = readWeight(isReturnProduct);
-                            stopScale();
+                            result.setMessage(AppConstants.Cashier.AUTOMATIC_READ_WEIGHT);
                             return result;
                         }
                     } else {
@@ -2749,38 +2754,13 @@ public class CashForm extends javax.swing.JFrame {
                         result.setMessage(AppConstants.Cashier.NO_FOUND_PRODUCT);
                         return result;
                     }
-                }
-                else{
-                    return addProduct(producWaitForWeight, true, isReturnProductWeight);
-                }
             }
             @Override
             protected void done() {
                 stopLoading();
                 try {
                     ResultAddProduct result = get();
-                    String message = result.getMessage();
-                    if(message.equals(AppConstants.Cashier.NO_FOUND_PRODUCT))
-                    {
-                        //show message toast
-                    }
-                    else if(message.equals(AppConstants.Cashier.CREATE_PURCHASE_ITEM))
-                    {
-                        createPurchaseItemView(result.isProductType());
-                    }
-                    else if(message.equals(AppConstants.Cashier.UPDATE_PURCHASE_ITEM) || message.equals(AppConstants.Cashier.NO_DELETE_PURCHASE))
-                    {
-                        updatePurchaseItemView(result.isProductType());
-                    }
-                    else if(message.equals(AppConstants.Cashier.DELETE_PURCHASE))
-                    {
-                        addToBacketView();
-                    }
-                    else if(message.equals(AppConstants.Cashier.OPEN_ADD_WEIGHT))
-                    {
-                        txtAddWeightDialog.setText("");
-                        addWeightDialog.setVisible(true);
-                    }
+                    processResultAddProduct(result);
                     
                 } catch (InterruptedException | ExecutionException ex) {
                     ex.printStackTrace();
@@ -2788,6 +2768,85 @@ public class CashForm extends javax.swing.JFrame {
             }
 
         }.execute();
+    }
+    
+    private void processResultAddProduct(ResultAddProduct result)
+    {
+        String message = result.getMessage();
+        if(message.equals(AppConstants.Cashier.NO_FOUND_PRODUCT))
+        {
+            //show message toast
+        }
+        else if(message.equals(AppConstants.Cashier.CREATE_PURCHASE_ITEM))
+        {
+            createPurchaseItemView(result.isProductType());
+        }
+        else if(message.equals(AppConstants.Cashier.UPDATE_PURCHASE_ITEM) || message.equals(AppConstants.Cashier.NO_DELETE_PURCHASE))
+        {
+            updatePurchaseItemView(result.isProductType());
+        }
+        else if(message.equals(AppConstants.Cashier.DELETE_PURCHASE))
+        {
+            addToBacketView();
+        }
+        else if(message.equals(AppConstants.Cashier.AUTOMATIC_READ_WEIGHT))
+        {
+            automaticReadWeight();
+        }
+        else if(message.equals(AppConstants.Cashier.OPEN_ADD_WEIGHT))
+        {
+            txtAddWeightDialog.setText("");
+            addWeightDialog.setVisible(true);
+        }
+    }
+    
+    private void automaticReadWeight()
+    {
+        startLoading();
+         new SwingWorker<ResultAddProduct, Void>() {
+            @Override
+            protected ResultAddProduct doInBackground() {
+                ResultAddProduct resultAddProduct = readWeight(isReturnProductWeight);
+                return resultAddProduct;
+            }
+
+            @Override
+            protected void done() {
+                stopLoading();
+                try {
+                    ResultAddProduct result = get();
+                    processResultAddProduct(result);
+                } catch (InterruptedException | ExecutionException ex) {
+                    ex.printStackTrace();
+                }
+            }
+         }.execute();
+    }
+    
+    private void proccessManualWeight()
+    {
+        startLoading();
+         new SwingWorker<ResultAddProduct, Void>() {
+            @Override
+            protected ResultAddProduct doInBackground() throws Exception {
+                return addProduct(producWaitForWeight,true,isReturnProductWeight);
+            }
+
+            @Override
+            protected void done() {
+               stopLoading();
+               try{
+                  ResultAddProduct result = get(); 
+                  processResultAddProduct(result);
+               }
+               catch(InterruptedException | ExecutionException ex)
+               {
+                   ex.printStackTrace();
+               }
+            }
+            
+         }.execute();
+            
     }
     
     private ResultAddProduct addProduct(Product product,boolean productType,boolean isReturnProduct)
