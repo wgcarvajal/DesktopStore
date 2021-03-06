@@ -2378,8 +2378,6 @@ public class CashForm extends javax.swing.JFrame {
     
     private void emptyVariables() {
         listScaleIp = null;
-        scale = null;
-        weight = null;
         rAmount = null;
         refund = null;
         receivedAmount = null;
@@ -2466,7 +2464,7 @@ public class CashForm extends javax.swing.JFrame {
     
     public void addToBacketView()
     {
-        stopScale();
+        emptyVariables();
         initScale();
         removeButtons();
         lblNameClient.setText("");
@@ -2479,8 +2477,6 @@ public class CashForm extends javax.swing.JFrame {
         searchProductBtn.setVisible(true);
         returnProductBtn.setVisible(true);
         searchClientBtn.setVisible(true);
-        
-        emptyVariables();
         
         GroupLayout jPanel5Layout = new javax.swing.GroupLayout(butonsPanel);
         butonsPanel.setLayout(jPanel5Layout);
@@ -2715,6 +2711,7 @@ public class CashForm extends javax.swing.JFrame {
                     boolean result = get();
                     if(result)
                     {
+                        stopScale();
                         openCashView();
                         cancelSalePasswordDialog.dispose();
                     }
@@ -2787,6 +2784,7 @@ public class CashForm extends javax.swing.JFrame {
         }
         else if(message.equals(AppConstants.Cashier.DELETE_PURCHASE))
         {
+            stopScale();
             addToBacketView();
         }
         else if(message.equals(AppConstants.Cashier.AUTOMATIC_READ_WEIGHT))
@@ -3187,6 +3185,7 @@ public class CashForm extends javax.swing.JFrame {
                     {
                         if(purchase== null)
                         {
+                            stopScale();
                             addToBacketView();
                             removeProductDialog.dispose();
                         }
@@ -3304,6 +3303,7 @@ public class CashForm extends javax.swing.JFrame {
                 try {
                     purchaseitems = get();
                     boolean isProductType = purchaseitems.get(purchaseitems.size()-1).getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar");
+                    initScale();
                     updatePurchaseItemView(isProductType);
                     if(purchase.getClient()!=null)
                     {
@@ -3473,6 +3473,7 @@ public class CashForm extends javax.swing.JFrame {
                     try {
                         boolean resp = get();
                         if (resp) {
+                            stopScale();
                             openCashView();
                             receivedAmountDialog.dispose();
                             txtSuccessFullPaymentDialog.setText("");

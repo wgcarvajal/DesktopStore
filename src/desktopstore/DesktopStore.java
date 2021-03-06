@@ -5,9 +5,6 @@
  */
 package desktopstore;
 
-import gnu.io.CommPortIdentifier;
-import java.util.Enumeration;
-
 /**
  *
  * @author aranda
