@@ -8,19 +8,16 @@ package desktopstore.util;
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.TooManyListenersException;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
  * @author Wilson Carvajal
  */
-public class Scale implements SerialPortEventListener {
+public class Scale{
     
     private final String TAG = "Scale";
     
@@ -29,6 +26,7 @@ public class Scale implements SerialPortEventListener {
     private SerialPort serialPort;
     private int  baud,databits,parity,stopbits;
     private String weight = "0";
+    private boolean run = false;
     
     public Scale(String portName)
     {
@@ -52,7 +50,7 @@ public class Scale implements SerialPortEventListener {
         if(initSerialPort())
         {
             setParameterSerialPort();
-            initListener();
+            //initListener();
             return true;
         }
         return false;
@@ -100,7 +98,7 @@ public class Scale implements SerialPortEventListener {
         }
     }
     
-    private void initListener()
+    /*private void initListener()
     {
         try {
             serialPort.addEventListener(this);
@@ -109,7 +107,7 @@ public class Scale implements SerialPortEventListener {
         catch (TooManyListenersException e) {
           Util.logError(TAG, "initListener",e.getMessage());
         }
-    }
+    }*/
     
     public synchronized void stop()
     {
@@ -122,46 +120,67 @@ public class Scale implements SerialPortEventListener {
         }
     }
 
-    @Override
-    public synchronized void serialEvent(SerialPortEvent serialPortEvent) {
-        try {
-            int value;
-            String[] values = new String[0];
-            while ((value = serialPort.getInputStream().read()) != -1) {
-                //System.out.println("Values: "+Integer.toHexString(value));
-                values = ArrayUtils.add(values, Integer.toHexString(value));
-            }
-            String gramos = "";
-            if (!values[4].equals("0")) {
-                gramos = values[4];
-                if (values[4].length() == 1) {
-                    gramos = gramos + "0";
+    
+    public  void runScale() {
+        run = true;
+        int first = 1;
+        String current = "0";
+        while (run) {
+            try {
+                int value;
+                String[] values = new String[0];
+                while ((value = serialPort.getInputStream().read()) != -1) {
+                    //System.out.println("Values: "+Integer.toHexString(value));
+                    values = ArrayUtils.add(values, Integer.toHexString(value));
                 }
-            }
+                String gramos = "";
+                if (values.length > 0) {
+                    if (!values[4].equals("0")) {
+                        gramos = values[4];
+                        if (values[4].length() == 1) {
+                            gramos = gramos + "0";
+                        }
+                    }
 
-            if (gramos.isEmpty()) {
-                if (!values[3].equals("0")) {
-                    gramos = values[3];
+                    if (gramos.isEmpty()) {
+                        if (!values[3].equals("0")) {
+                            gramos = values[3];
+                        }
+                    } else {
+                        gramos = gramos + values[3];
+                    }
+
+                    if (gramos.isEmpty()) {
+                        gramos = values[2];
+                    } else if (values[2].length() == 1) {
+                        gramos = gramos + "0" + values[2];
+                    } else {
+                        gramos = gramos + values[2];
+                    }
+                    
+                    if(gramos.equals(current))
+                    {
+                        if(first==8)
+                        {
+                           weight = gramos; 
+                        }
+                        first+=1;
+                    }
+                    else{
+                        current = gramos;
+                        first = 1;
+                    }
+                    System.out.println(gramos);
                 }
-            } else {
-                gramos = gramos + values[3];
+            } catch (IOException e) {
+                Util.logError(TAG, "serialEvent", e.getMessage());
             }
-
-            if (gramos.isEmpty()) {
-                gramos = values[2];
-            } else if (values[2].length() == 1) {
-                gramos = gramos + "0" + values[2];
-            } else {
-                gramos = gramos + values[2];
-            }
-
-            weight = gramos;
-            System.out.println(gramos);
-            
-
-        } catch (IOException e) {
-            Util.logError(TAG, "serialEvent",e.getMessage());
         }
+    }
+    
+    public void stopScale()
+    {
+        run = false;
     }
     
 }

@@ -2465,7 +2465,6 @@ public class CashForm extends javax.swing.JFrame {
     public void addToBacketView()
     {
         emptyVariables();
-        initScale();
         removeButtons();
         lblNameClient.setText("");
         lblTotal.setText("$0 ");
@@ -2711,7 +2710,6 @@ public class CashForm extends javax.swing.JFrame {
                     boolean result = get();
                     if(result)
                     {
-                        stopScale();
                         openCashView();
                         cancelSalePasswordDialog.dispose();
                     }
@@ -2784,7 +2782,6 @@ public class CashForm extends javax.swing.JFrame {
         }
         else if(message.equals(AppConstants.Cashier.DELETE_PURCHASE))
         {
-            stopScale();
             addToBacketView();
         }
         else if(message.equals(AppConstants.Cashier.AUTOMATIC_READ_WEIGHT))
@@ -2801,6 +2798,11 @@ public class CashForm extends javax.swing.JFrame {
     private void automaticReadWeight()
     {
         startLoading();
+        if(scale!=null)
+         {
+             stopScale();
+         }
+         initScale();
          new SwingWorker<ResultAddProduct, Void>() {
             @Override
             protected ResultAddProduct doInBackground() {
@@ -2812,6 +2814,7 @@ public class CashForm extends javax.swing.JFrame {
             protected void done() {
                 stopLoading();
                 try {
+                    stopScale();
                     ResultAddProduct result = get();
                     processResultAddProduct(result);
                 } catch (InterruptedException | ExecutionException ex) {
@@ -2819,6 +2822,7 @@ public class CashForm extends javax.swing.JFrame {
                 }
             }
          }.execute();
+         scale.runScale();
     }
     
     private void proccessManualWeight()
@@ -3012,6 +3016,7 @@ public class CashForm extends javax.swing.JFrame {
                     break;
                 }
             }
+            scale.stopScale();
             if(scale.getWeight().equals("0"))
             {
                 Util.logInformation(TAG, "readWeight", "scale.getWeight == 0, call openAddWeight()");
@@ -3024,6 +3029,7 @@ public class CashForm extends javax.swing.JFrame {
                 Util.logInformation(TAG, "readWeight", "scale.getWeight sucessfull, Weight = weight");
                 return addProduct(producWaitForWeight, true,isReturnProduct);
             }
+           
         } else
         {
             Util.logInformation(TAG, "readWeight", "scale is null, call openAddWeight()");
@@ -3185,7 +3191,6 @@ public class CashForm extends javax.swing.JFrame {
                     {
                         if(purchase== null)
                         {
-                            stopScale();
                             addToBacketView();
                             removeProductDialog.dispose();
                         }
@@ -3303,7 +3308,6 @@ public class CashForm extends javax.swing.JFrame {
                 try {
                     purchaseitems = get();
                     boolean isProductType = purchaseitems.get(purchaseitems.size()-1).getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar");
-                    initScale();
                     updatePurchaseItemView(isProductType);
                     if(purchase.getClient()!=null)
                     {
@@ -3473,7 +3477,6 @@ public class CashForm extends javax.swing.JFrame {
                     try {
                         boolean resp = get();
                         if (resp) {
-                            stopScale();
                             openCashView();
                             receivedAmountDialog.dispose();
                             txtSuccessFullPaymentDialog.setText("");

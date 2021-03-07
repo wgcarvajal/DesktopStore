@@ -37,6 +37,12 @@ public class Util {
     public static String FONTDIR= "/home/store/filesStore/font/";
     public static String LOGSDIR= "/home/store/filesStore/logs/";*/
     
+    /*public static String PRODUCTIMAGEDIR= "C:\\filesStore\\productImage\\";
+    public static String BILLDIR= "C:\\filesStore\\bill\\";
+    public static String FONTDIR= "C:\\filesStore\\font\\";
+    public static String LOGSDIR= "C:\\filesStore\\logs\\";
+    public static String CASHINFO = "C:\\filesStore\\cashInfo\\info.json";*/
+    
     public static String PRODUCTIMAGEDIR= "D:\\filesStore\\productImage\\";
     public static String BILLDIR= "D:\\filesStore\\bill\\";
     public static String FONTDIR= "D:\\filesStore\\font\\";
