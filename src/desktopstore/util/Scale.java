@@ -129,12 +129,11 @@ public class Scale{
             try {
                 int value;
                 String[] values = new String[0];
-                while ((value = serialPort.getInputStream().read()) != -1) {
+                while ((value = serialPort.getInputStream().read()) != -1 && run) {
                     //System.out.println("Values: "+Integer.toHexString(value));
                     values = ArrayUtils.add(values, Integer.toHexString(value));
-                }
-                String gramos = "";
-                if (values.length > 0) {
+                    String gramos = "";
+                if (values.length == 6) {
                     if (!values[4].equals("0")) {
                         gramos = values[4];
                         if (values[4].length() == 1) {
@@ -160,7 +159,7 @@ public class Scale{
                     
                     if(gramos.equals(current))
                     {
-                        if(first==8)
+                        if(first==6)
                         {
                            weight = gramos; 
                         }
@@ -171,6 +170,8 @@ public class Scale{
                         first = 1;
                     }
                     System.out.println(gramos);
+                    values = new String[0];
+                }
                 }
             } catch (IOException e) {
                 Util.logError(TAG, "serialEvent", e.getMessage());

@@ -68,7 +68,7 @@ import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author aranda
+ * @author Wilson Carvajal
  */
 public class CashForm extends javax.swing.JFrame {
     
@@ -3011,7 +3011,7 @@ public class CashForm extends javax.swing.JFrame {
             while(scale.getWeight().equals("0")) {
                 c = Calendar.getInstance();
                 long currentTime = c.getTimeInMillis();
-                if(currentTime>(initTime + 4000l))
+                if(currentTime>(initTime + 3000l))
                 {
                     break;
                 }
