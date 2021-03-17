@@ -1459,6 +1459,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
             }
         });
 
+        weightTextPane.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         weightTextPane.setEnabled(false);
         jScrollPane3.setViewportView(weightTextPane);
 
