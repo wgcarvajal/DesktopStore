@@ -124,7 +124,6 @@ public class Scale{
     public synchronized void stop()
     {
         try{
-            run = false;
             serialPort.removeEventListener();
             serialPort.close();
         }catch(Exception e)
