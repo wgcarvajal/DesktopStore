@@ -42,17 +42,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.text.DefaultEditorKit;
 import model.CancelpurchaseauditorieModel;
 import model.ClientModel;
 import model.PriceModel;
@@ -70,9 +74,11 @@ import org.json.simple.parser.ParseException;
  *
  * @author Wilson Carvajal
  */
-public class CashForm extends javax.swing.JFrame {
+public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     
     private final String TAG = "CashForm";
+    
+    private boolean tests= false;
     
     private PurchaseModel purchaseModel;
     private ProductModel productModel;
@@ -137,6 +143,8 @@ public class CashForm extends javax.swing.JFrame {
        receivedAmountDialog.pack();
        endPaymentDialog.pack();
        addWeightDialog.pack();
+       removeProductPastePopupMenu.pack();
+       testScaleDialog.pack();
        openCashPasswordDialog.setLocationRelativeTo(null);
        cancelSalePasswordDialog.setLocationRelativeTo(null);
        noActionDialog.setLocationRelativeTo(null);
@@ -147,6 +155,7 @@ public class CashForm extends javax.swing.JFrame {
        resumeDialog.setLocationRelativeTo(null);
        endPaymentDialog.setLocationRelativeTo(null);
        addWeightDialog.setLocationRelativeTo(null);
+       testScaleDialog.setLocationRelativeTo(null);
        
        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
        int width = (int)(screenSize.getWidth()/2);
@@ -272,6 +281,14 @@ public class CashForm extends javax.swing.JFrame {
        totalBtn.setOpaque(true);
        totalBtn.setVisible(false);
        
+       scaleTestBtn = new JButton();
+       scaleTestBtn.setBackground(new java.awt.Color(255, 255, 255));
+       scaleTestBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/scale.png"))); // NOI18N
+       scaleTestBtn.setBorderPainted(false);
+       scaleTestBtn.setFocusable(false);
+       scaleTestBtn.setOpaque(true);
+       scaleTestBtn.setVisible(false);
+       
        openBtn.addActionListener((ActionEvent e) -> {
            openBtnActionPerformed(e);
        });
@@ -326,6 +343,10 @@ public class CashForm extends javax.swing.JFrame {
        
        totalBtn.addActionListener((ActionEvent e) -> {
            totalBtnActionPerformed(e);
+       });
+       
+       scaleTestBtn.addActionListener((ActionEvent e) -> {
+           scaleTestBtnActionPerformed(e);
        });
        
        GroupLayout jPanel5Layout = new javax.swing.GroupLayout(butonsPanel);
@@ -461,6 +482,17 @@ public class CashForm extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtAddWeightDialog = new javax.swing.JTextField();
         btnOkAddWeightDialog = new javax.swing.JButton();
+        removeProductPastePopupMenu = new javax.swing.JPopupMenu();
+        pasteRemoveProductPopupMenu = new javax.swing.JMenuItem(new DefaultEditorKit.PasteAction());
+        testScaleDialog = new javax.swing.JDialog();
+        jPanel12 = new javax.swing.JPanel();
+        btnStartTestScale = new javax.swing.JButton();
+        btnEndTestScale = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        weightTextPane = new javax.swing.JTextPane();
+        jLabel20 = new javax.swing.JLabel();
+        btnCloseTestScaleDialog = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         rSLabelFecha2 = new rojeru_san.RSLabelFecha();
@@ -750,6 +782,11 @@ public class CashForm extends javax.swing.JFrame {
         jLabel11.setText("Código de barras:");
 
         txtBarCodeRemoveProductDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtBarCodeRemoveProductDialog.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBarCodeRemoveProductDialogMouseClicked(evt);
+            }
+        });
         txtBarCodeRemoveProductDialog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBarCodeRemoveProductDialogActionPerformed(evt);
@@ -1324,12 +1361,12 @@ public class CashForm extends javax.swing.JFrame {
                     .addComponent(lblReturnEndPaymentDialog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblTotalEndPaymentDialog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblQuantityEndPaymentDialog, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
+                    .addComponent(lblQuantityEndPaymentDialog, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .addGroup(endPaymentDialogLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnOkEndPaymentDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(endPaymentDialogLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnOkEndPaymentDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         endPaymentDialogLayout.setVerticalGroup(
             endPaymentDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1397,6 +1434,106 @@ public class CashForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOkAddWeightDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pasteRemoveProductPopupMenu.setText("Pegar");
+        removeProductPastePopupMenu.add(pasteRemoveProductPopupMenu);
+
+        testScaleDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        testScaleDialog.setTitle("Prueba de balanza");
+        testScaleDialog.setModal(true);
+
+        btnStartTestScale.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnStartTestScale.setText("Iniciar");
+        btnStartTestScale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartTestScaleActionPerformed(evt);
+            }
+        });
+
+        btnEndTestScale.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnEndTestScale.setText("Parar");
+        btnEndTestScale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEndTestScaleActionPerformed(evt);
+            }
+        });
+
+        weightTextPane.setEnabled(false);
+        jScrollPane3.setViewportView(weightTextPane);
+
+        jLabel20.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Peso");
+
+        btnCloseTestScaleDialog.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnCloseTestScaleDialog.setText("Cerrar");
+        btnCloseTestScaleDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseTestScaleDialogActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("Prueba de balanza");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnStartTestScale)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEndTestScale, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap(212, Short.MAX_VALUE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(210, 210, 210))
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCloseTestScaleDialog)
+                .addGap(206, 206, 206))
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEndTestScale, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStartTestScale, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCloseTestScaleDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        testScaleDialog.setUndecorated(true);
+
+        javax.swing.GroupLayout testScaleDialogLayout = new javax.swing.GroupLayout(testScaleDialog.getContentPane());
+        testScaleDialog.getContentPane().setLayout(testScaleDialogLayout);
+        testScaleDialogLayout.setHorizontalGroup(
+            testScaleDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        testScaleDialogLayout.setVerticalGroup(
+            testScaleDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1831,6 +1968,10 @@ public class CashForm extends javax.swing.JFrame {
         String codeForReturn = txtReturnProductDialog.getText();
         if(!codeForReturn.isEmpty())
         {
+            if(codeForReturn.length()>12)
+            {
+                codeForReturn = codeForReturn.substring(0, 12);
+            }
             searchAndAddProduct(codeForReturn, true);
             returnProductDialog.dispose();
         }
@@ -1994,10 +2135,31 @@ public class CashForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtAddWeightDialogKeyPressed
 
+    private void txtBarCodeRemoveProductDialogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBarCodeRemoveProductDialogMouseClicked
+        if(SwingUtilities.isRightMouseButton(evt))
+        {
+            removeProductPastePopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_txtBarCodeRemoveProductDialogMouseClicked
+
+    private void btnStartTestScaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartTestScaleActionPerformed
+        startTestScale();
+    }//GEN-LAST:event_btnStartTestScaleActionPerformed
+
+    private void btnEndTestScaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndTestScaleActionPerformed
+        stopTestScale();
+    }//GEN-LAST:event_btnEndTestScaleActionPerformed
+
+    private void btnCloseTestScaleDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseTestScaleDialogActionPerformed
+        testScaleDialog.dispose();
+    }//GEN-LAST:event_btnCloseTestScaleDialogActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog addClientDialog;
     private javax.swing.JDialog addWeightDialog;
     private javax.swing.JButton btnAddClientDialog;
+    private javax.swing.JButton btnCloseTestScaleDialog;
+    private javax.swing.JButton btnEndTestScale;
     private javax.swing.JButton btnOkAddWeightDialog;
     private javax.swing.JButton btnOkCancelSale;
     private javax.swing.JButton btnOkChangeQuantityDialog;
@@ -2009,6 +2171,7 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JButton btnReadCode;
     private javax.swing.JButton btnReceivedAmountDialog;
     private javax.swing.JButton btnResumeDialog;
+    private javax.swing.JButton btnStartTestScale;
     private javax.swing.JButton btnSuccessfullPaymentDialog;
     private javax.swing.JButton btnTotalDialog;
     private javax.swing.JPanel butonsPanel;
@@ -2031,6 +2194,8 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2041,6 +2206,7 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2050,6 +2216,7 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblNameClient;
     private javax.swing.JLabel lblQuantityEndPaymentDialog;
     private javax.swing.JLabel lblReturnEndPaymentDialog;
@@ -2058,11 +2225,13 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotalEndPaymentDialog;
     private javax.swing.JDialog noActionDialog;
     private javax.swing.JDialog openCashPasswordDialog;
+    private javax.swing.JMenuItem pasteRemoveProductPopupMenu;
     private javax.swing.JTable productTable;
     private rojeru_san.RSLabelFecha rSLabelFecha2;
     private rojeru_san.RSLabelHora rSLabelHora1;
     private javax.swing.JDialog receivedAmountDialog;
     private javax.swing.JDialog removeProductDialog;
+    private javax.swing.JPopupMenu removeProductPastePopupMenu;
     private javax.swing.JDialog resumeDialog;
     private javax.swing.JTable resumeDialogTable;
     private javax.swing.JDialog returnProductDialog;
@@ -2071,6 +2240,7 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JDialog selectProductDialog;
     private javax.swing.JTable selectProductDialogTable;
     private javax.swing.JDialog successfulPaymentDialog;
+    private javax.swing.JDialog testScaleDialog;
     private javax.swing.JDialog totalDialog;
     private javax.swing.JTextField txtAddClientDialog;
     private javax.swing.JTextField txtAddWeightDialog;
@@ -2083,6 +2253,7 @@ public class CashForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtSelectProductDialog;
     private javax.swing.JTextField txtSuccessFullPaymentDialog;
     private javax.swing.JLabel userName;
+    private javax.swing.JTextPane weightTextPane;
     // End of variables declaration//GEN-END:variables
     private JButton openBtn; 
     private JButton exitBtn; 
@@ -2098,8 +2269,39 @@ public class CashForm extends javax.swing.JFrame {
     private JButton addClientBtn;
     private JButton searchClientBtn;
     private JButton totalBtn;
+    private JButton scaleTestBtn;
 
     
+    private void startTestScale()
+    {
+        if(scale!=null)
+         {
+             stopScale();
+         }
+         initScale();
+         if(scale!=null){
+             scale.setListener(this);
+             Thread thread = new Thread(() -> {
+                 scale.runScale();
+             });
+             weightTextPane.setText("");
+             btnStartTestScale.setEnabled(false);
+             btnEndTestScale.setEnabled(true);
+             btnCloseTestScaleDialog.setEnabled(false);
+             thread.start();
+         }
+    }
+    
+    private void stopTestScale()
+    {
+        if(scale!=null)
+        {
+             stopScale();
+        }
+        btnStartTestScale.setEnabled(true);
+        btnEndTestScale.setEnabled(false);
+        btnCloseTestScaleDialog.setEnabled(false);
+    }
     
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
         txtOpenCashPassword.setText("");
@@ -2165,6 +2367,20 @@ public class CashForm extends javax.swing.JFrame {
     private void totalBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
         currentDayTotal();
     } 
+    
+    private void scaleTestBtnActionPerformed(java.awt.event.ActionEvent evt)
+    {
+        openScaleTest();
+    }
+    
+    private void openScaleTest()
+    {
+        btnStartTestScale.setEnabled(true);
+        btnEndTestScale.setEnabled(false);
+        btnCloseTestScaleDialog.setEnabled(true);
+        weightTextPane.setText("");
+        testScaleDialog.setVisible(true);
+    }
     
     public void readCode()
     {
@@ -2327,6 +2543,17 @@ public class CashForm extends javax.swing.JFrame {
                     noActionDialog.setVisible(true);
                 }
                 break;
+                
+             case "011":
+                if(scaleTestBtn.isVisible())
+                {
+                   openScaleTest();
+                }
+                else
+                {
+                    noActionDialog.setVisible(true);
+                }
+                break;
             default:
                 if(selectBtn.isVisible())
                 {
@@ -2357,6 +2584,7 @@ public class CashForm extends javax.swing.JFrame {
         butonsPanel.remove(addClientBtn);
         butonsPanel.remove(searchClientBtn);
         butonsPanel.remove(totalBtn);
+        butonsPanel.remove(scaleTestBtn);
         butonsPanel.revalidate();
         butonsPanel.repaint();
         
@@ -2374,6 +2602,7 @@ public class CashForm extends javax.swing.JFrame {
         addClientBtn.setVisible(false);
         searchClientBtn.setVisible(false);
         totalBtn.setVisible(false);
+        scaleTestBtn.setVisible(false);
     }
     
     private void emptyVariables() {
@@ -2400,6 +2629,7 @@ public class CashForm extends javax.swing.JFrame {
         searchProductBtn.setVisible(true);
         searchClientBtn.setVisible(true);
         totalBtn.setVisible(true);
+        scaleTestBtn.setVisible(true);
         clientAndTotalPanel.setVisible(false);
         scrollProductTable.setVisible(false);
         
@@ -2420,6 +2650,8 @@ public class CashForm extends javax.swing.JFrame {
                 .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(totalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -2433,6 +2665,7 @@ public class CashForm extends javax.swing.JFrame {
                     .addComponent(searchProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(totalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 ))
         );
     }
@@ -2476,6 +2709,7 @@ public class CashForm extends javax.swing.JFrame {
         searchProductBtn.setVisible(true);
         returnProductBtn.setVisible(true);
         searchClientBtn.setVisible(true);
+        scaleTestBtn.setVisible(true);
         
         GroupLayout jPanel5Layout = new javax.swing.GroupLayout(butonsPanel);
         butonsPanel.setLayout(jPanel5Layout);
@@ -2492,6 +2726,8 @@ public class CashForm extends javax.swing.JFrame {
                 .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -2504,6 +2740,7 @@ public class CashForm extends javax.swing.JFrame {
                     .addComponent(searchProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     ))
         );
     }
@@ -2519,6 +2756,7 @@ public class CashForm extends javax.swing.JFrame {
         returnProductBtn.setVisible(true);
         addClientBtn.setVisible(true);
         searchClientBtn.setVisible(true);
+        scaleTestBtn.setVisible(true);
         scrollProductTable.setVisible(true);
         
         GroupLayout jPanel5Layout = new javax.swing.GroupLayout(butonsPanel);
@@ -2544,6 +2782,8 @@ public class CashForm extends javax.swing.JFrame {
                 .addComponent(addClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -2560,6 +2800,7 @@ public class CashForm extends javax.swing.JFrame {
                     .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     ))
         );
 
@@ -2593,6 +2834,7 @@ public class CashForm extends javax.swing.JFrame {
         addClientBtn.setVisible(true);
         searchClientBtn.setVisible(true);
         scrollProductTable.setVisible(true);
+        scaleTestBtn.setVisible(true);
         
         if(!clientAndTotalPanel.isVisible())
         {
@@ -2622,6 +2864,8 @@ public class CashForm extends javax.swing.JFrame {
                 .addComponent(addClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -2638,6 +2882,7 @@ public class CashForm extends javax.swing.JFrame {
                     .addComponent(returnProductBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchClientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     ))
         );
 
@@ -2803,6 +3048,12 @@ public class CashForm extends javax.swing.JFrame {
              stopScale();
          }
          initScale();
+         if(scale!=null){
+             Thread thread = new Thread(() -> {
+                 scale.runScale();
+             });
+             thread.start();
+         }
          new SwingWorker<ResultAddProduct, Void>() {
             @Override
             protected ResultAddProduct doInBackground() {
@@ -2822,7 +3073,6 @@ public class CashForm extends javax.swing.JFrame {
                 }
             }
          }.execute();
-         scale.runScale();
     }
     
     private void proccessManualWeight()
@@ -3163,6 +3413,10 @@ public class CashForm extends javax.swing.JFrame {
                 String codeForRemove = txtBarCodeRemoveProductDialog.getText();
                 if(!codeForRemove.isEmpty())
                 {
+                    if(codeForRemove.length()>12)
+                    {
+                        codeForRemove = codeForRemove.substring(0, 12);
+                    }
                     Product product = productModel.findByBarCode(codeForRemove);
                     if (product != null) {
                         for (int i = purchaseitems.size() - 1; i >= 0; i--) {
@@ -3706,6 +3960,7 @@ public class CashForm extends javax.swing.JFrame {
         addClientBtn.setEnabled(false);
         searchClientBtn.setEnabled(false);
         totalBtn.setEnabled(false);
+        scaleTestBtn.setEnabled(false);
         codeTxt.setEnabled(false);
         btnReadCode.setEnabled(false);
         btnReadCode.setIcon(loadingIcon);
@@ -3727,10 +3982,18 @@ public class CashForm extends javax.swing.JFrame {
         addClientBtn.setEnabled(true);
         searchClientBtn.setEnabled(true);
         totalBtn.setEnabled(true);
+        scaleTestBtn.setEnabled(true);
         codeTxt.setEnabled(true);
         btnReadCode.setEnabled(true);
         btnReadCode.setIcon(searchIcon);
         codeTxt.requestFocus();
+    }
+
+    @Override
+    public void paintWeight(String weight) {
+        String w = weightTextPane.getText();
+        w = w + weight +"\n";
+        weightTextPane.setText(w);
     }
     
 }

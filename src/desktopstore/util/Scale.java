@@ -11,6 +11,7 @@ import gnu.io.SerialPort;
 import gnu.io.UnsupportedCommOperationException;
 import java.io.IOException;
 import java.util.Enumeration;
+import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
@@ -27,6 +28,7 @@ public class Scale{
     private int  baud,databits,parity,stopbits;
     private String weight = "0";
     private boolean run = false;
+    private Mlistener mlistener;
     
     public Scale(String portName)
     {
@@ -36,7 +38,17 @@ public class Scale{
         stopbits = 1; 
         this.portName = portName; 
     }
+    
+    public interface Mlistener
+    {
+        void paintWeight(String weight);
+    }
 
+    public void setListener(Mlistener mlistener)
+    {
+        this.mlistener = mlistener;
+    }
+    
     public String getWeight() {
         return weight;
     }
@@ -112,6 +124,7 @@ public class Scale{
     public synchronized void stop()
     {
         try{
+            run = false;
             serialPort.removeEventListener();
             serialPort.close();
         }catch(Exception e)
@@ -125,53 +138,67 @@ public class Scale{
         run = true;
         int first = 1;
         String current = "0";
+        int firstTime = 1;
         while (run) {
             try {
                 int value;
                 String[] values = new String[0];
                 while ((value = serialPort.getInputStream().read()) != -1 && run) {
                     //System.out.println("Values: "+Integer.toHexString(value));
-                    values = ArrayUtils.add(values, Integer.toHexString(value));
-                    String gramos = "";
-                if (values.length == 6) {
-                    if (!values[4].equals("0")) {
-                        gramos = values[4];
-                        if (values[4].length() == 1) {
-                            gramos = gramos + "0";
+                    String v = Integer.toHexString(value);
+                    if (firstTime == 1) {
+                        if (v.toLowerCase().equals("ff")) {
+                            firstTime += 1;
                         }
                     }
+                    if (firstTime > 1) {
+                        values = ArrayUtils.add(values, v);
+                        String gramos = "";
+                        if (values.length == 6) {
+                            if (!values[4].equals("0")) {
+                                gramos = values[4];
+                                if (values[4].length() == 1) {
+                                    gramos = gramos + "0";
+                                }
+                            }
 
-                    if (gramos.isEmpty()) {
-                        if (!values[3].equals("0")) {
-                            gramos = values[3];
-                        }
-                    } else {
-                        gramos = gramos + values[3];
-                    }
+                            if (gramos.isEmpty()) {
+                                if (!values[3].equals("0")) {
+                                    gramos = values[3];
+                                }
+                            } else {
+                                gramos = gramos + values[3];
+                            }
 
-                    if (gramos.isEmpty()) {
-                        gramos = values[2];
-                    } else if (values[2].length() == 1) {
-                        gramos = gramos + "0" + values[2];
-                    } else {
-                        gramos = gramos + values[2];
-                    }
-                    
-                    if(gramos.equals(current))
-                    {
-                        if(first==6)
-                        {
-                           weight = gramos; 
+                            if (gramos.isEmpty()) {
+                                gramos = values[2];
+                            } else if (values[2].length() == 1) {
+                                gramos = gramos + "0" + values[2];
+                            } else {
+                                gramos = gramos + values[2];
+                            }
+
+                            if (gramos.equals(current)) {
+                                if (first == 6) {
+                                    weight = gramos;
+                                }
+                                first += 1;
+                            } else {
+                                current = gramos;
+                                first = 1;
+                            }
+                            System.out.println(gramos);
+                            values = new String[0];
+                            
+                            final String g = gramos;
+                            if(mlistener!=null)
+                            {
+                                SwingUtilities.invokeLater(() -> {
+                                    mlistener.paintWeight(g);
+                                });
+                            }
                         }
-                        first+=1;
                     }
-                    else{
-                        current = gramos;
-                        first = 1;
-                    }
-                    System.out.println(gramos);
-                    values = new String[0];
-                }
                 }
             } catch (IOException e) {
                 Util.logError(TAG, "serialEvent", e.getMessage());
