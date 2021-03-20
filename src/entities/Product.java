@@ -24,7 +24,6 @@ import javax.persistence.Table;
 )
 public class Product  implements java.io.Serializable {
 
-
      private Long prodId;
      private Brand brand;
      private Category category;

@@ -154,6 +154,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
        removeProductDialog.setLocationRelativeTo(null);
        returnProductDialog.setLocationRelativeTo(null);
        selectProductDialog.setLocationRelativeTo(null);
+       searchProductDialog.setLocationRelativeTo(null);
        resumeDialog.setLocationRelativeTo(null);
        endPaymentDialog.setLocationRelativeTo(null);
        addWeightDialog.setLocationRelativeTo(null);
@@ -167,9 +168,11 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
        infoSalePanel.setPreferredSize(new Dimension(width-12, 0));
        
        selectProductDialog.setPreferredSize(new Dimension((int)screenSize.getWidth(),selectProductDialog.getPreferredSize().height));
+       searchProductDialog.setPreferredSize(new Dimension((int)screenSize.getWidth(),searchProductDialog.getPreferredSize().height));
        successfulPaymentDialog.setUndecorated(true);
        selectProductDialog.pack();
        successfulPaymentDialog.pack();
+       searchProductDialog.pack();
        
        clientAndTotalPanel.setVisible(false);
        scrollProductTable.setVisible(false);
@@ -501,6 +504,21 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         messageErrorDialog = new javax.swing.JDialog();
         messageErrorDialogLabel = new javax.swing.JLabel();
         btnOkMessageErrorDialog = new javax.swing.JButton();
+        searchProductDialog = new javax.swing.JDialog();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel23 = new javax.swing.JLabel();
+        txtCodeSearchProductDialog = new javax.swing.JTextField();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
+        txtNameSearchProductDialog = new javax.swing.JTextField();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        txtCategorySearchProductDialog = new javax.swing.JTextField();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
+        txtBrandSearchProductDialog = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        searchProductDialogTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         rSLabelFecha2 = new rojeru_san.RSLabelFecha();
@@ -1604,6 +1622,207 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
+        searchProductDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        searchProductDialog.setTitle("Productos");
+        searchProductDialog.setModal(true);
+        searchProductDialog.setPreferredSize(new java.awt.Dimension(1000, 584));
+
+        jLabel23.setText("Código de barras");
+
+        txtCodeSearchProductDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCodeSearchProductDialogKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodeSearchProductDialogKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(0, 61, Short.MAX_VALUE)
+                        .addComponent(jLabel23)
+                        .addGap(0, 61, Short.MAX_VALUE))
+                    .addComponent(txtCodeSearchProductDialog))
+                .addContainerGap())
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCodeSearchProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel24.setText("Nombre");
+
+        txtNameSearchProductDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNameSearchProductDialogKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNameSearchProductDialogKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap(85, Short.MAX_VALUE)
+                .addComponent(jLabel24)
+                .addContainerGap(85, Short.MAX_VALUE))
+            .addComponent(txtNameSearchProductDialog)
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNameSearchProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel25.setText("Categoría");
+
+        txtCategorySearchProductDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCategorySearchProductDialogKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCategorySearchProductDialogKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGap(0, 80, Short.MAX_VALUE)
+                        .addComponent(jLabel25)
+                        .addGap(0, 80, Short.MAX_VALUE))
+                    .addComponent(txtCategorySearchProductDialog))
+                .addContainerGap())
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel25)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCategorySearchProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel26.setText("Marca");
+
+        txtBrandSearchProductDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBrandSearchProductDialogKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBrandSearchProductDialogKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGap(0, 86, Short.MAX_VALUE)
+                        .addComponent(jLabel26)
+                        .addGap(0, 87, Short.MAX_VALUE))
+                    .addComponent(txtBrandSearchProductDialog))
+                .addContainerGap())
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBrandSearchProductDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        searchProductDialogTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código de barras", "Nombre", "Presentación", "Categoria", "Marca", "Precio"
+            }
+        ));
+        searchProductDialogTable.setFocusable(false);
+        searchProductDialogTable.setRowHeight(35);
+        searchProductDialogTable.setSelectionBackground(new java.awt.Color(223, 239, 252));
+        searchProductDialogTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        JTableHeader headerSearchProduct = searchProductDialogTable.getTableHeader();
+        headerSearchProduct.setBackground(new Color(223, 239, 252));
+        headerSearchProduct.setForeground(new Color(46, 110, 158));
+        headerSearchProduct.setFont(new Font("SansSerif", Font.BOLD, 14));
+        Border borderSearchProduct = BorderFactory.createLineBorder(new Color(116,201,226), 1);
+        headerSearchProduct.setBorder(borderSearchProduct);
+        headerSearchProduct.setReorderingAllowed(false);
+
+        TableCellRenderer rendererFromHeaderSearchProduct = searchProductDialogTable.getTableHeader().getDefaultRenderer();
+        JLabel headerLabelSarchProduct= (JLabel) rendererFromHeaderSearchProduct;
+        headerLabelSarchProduct.setHorizontalAlignment(JLabel.CENTER);
+        headerLabelSarchProduct.setPreferredSize(new Dimension(100,30));
+        searchProductDialogTable.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        jScrollPane2.setViewportView(searchProductDialogTable);
+
+        javax.swing.GroupLayout searchProductDialogLayout = new javax.swing.GroupLayout(searchProductDialog.getContentPane());
+        searchProductDialog.getContentPane().setLayout(searchProductDialogLayout);
+        searchProductDialogLayout.setHorizontalGroup(
+            searchProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchProductDialogLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchProductDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+        );
+        searchProductDialogLayout.setVerticalGroup(
+            searchProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchProductDialogLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(searchProductDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setExtendedState(6);
@@ -2234,6 +2453,46 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         }
     }//GEN-LAST:event_btnOkMessageErrorDialogKeyPressed
 
+    private void txtCodeSearchProductDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeSearchProductDialogKeyPressed
+        if (evt.getKeyCode() == 27) {
+            searchProductDialog.dispose();
+        }
+    }//GEN-LAST:event_txtCodeSearchProductDialogKeyPressed
+
+    private void txtCodeSearchProductDialogKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeSearchProductDialogKeyReleased
+       searchProduct();
+    }//GEN-LAST:event_txtCodeSearchProductDialogKeyReleased
+
+    private void txtNameSearchProductDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameSearchProductDialogKeyPressed
+        if (evt.getKeyCode() == 27) {
+            searchProductDialog.dispose();
+        }
+    }//GEN-LAST:event_txtNameSearchProductDialogKeyPressed
+
+    private void txtNameSearchProductDialogKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameSearchProductDialogKeyReleased
+       searchProduct();
+    }//GEN-LAST:event_txtNameSearchProductDialogKeyReleased
+
+    private void txtCategorySearchProductDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCategorySearchProductDialogKeyPressed
+        if (evt.getKeyCode() == 27) {
+            searchProductDialog.dispose();
+        }
+    }//GEN-LAST:event_txtCategorySearchProductDialogKeyPressed
+
+    private void txtCategorySearchProductDialogKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCategorySearchProductDialogKeyReleased
+        searchProduct();
+    }//GEN-LAST:event_txtCategorySearchProductDialogKeyReleased
+
+    private void txtBrandSearchProductDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBrandSearchProductDialogKeyPressed
+        if (evt.getKeyCode() == 27) {
+            searchProductDialog.dispose();
+        }
+    }//GEN-LAST:event_txtBrandSearchProductDialogKeyPressed
+
+    private void txtBrandSearchProductDialogKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBrandSearchProductDialogKeyReleased
+        searchProduct();
+    }//GEN-LAST:event_txtBrandSearchProductDialogKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog addClientDialog;
     private javax.swing.JDialog addWeightDialog;
@@ -2277,6 +2536,10 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2287,6 +2550,10 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2296,6 +2563,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblNameClient;
     private javax.swing.JLabel lblQuantityEndPaymentDialog;
@@ -2321,6 +2589,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JDialog returnProductDialog;
     private javax.swing.JScrollPane scrollProductTable;
     private javax.swing.JScrollPane scrollSelectProductDialogTable;
+    private javax.swing.JDialog searchProductDialog;
+    private javax.swing.JTable searchProductDialogTable;
     private javax.swing.JDialog selectProductDialog;
     private javax.swing.JTable selectProductDialogTable;
     private javax.swing.JDialog successfulPaymentDialog;
@@ -2329,8 +2599,12 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JTextField txtAddClientDialog;
     private javax.swing.JTextField txtAddWeightDialog;
     private javax.swing.JTextField txtBarCodeRemoveProductDialog;
+    private javax.swing.JTextField txtBrandSearchProductDialog;
     private javax.swing.JPasswordField txtCancelSalepassword;
+    private javax.swing.JTextField txtCategorySearchProductDialog;
     private javax.swing.JTextField txtChangeQuantityDialog;
+    private javax.swing.JTextField txtCodeSearchProductDialog;
+    private javax.swing.JTextField txtNameSearchProductDialog;
     private javax.swing.JPasswordField txtOpenCashPassword;
     private javax.swing.JTextField txtReceivedAmountDialog;
     private javax.swing.JTextField txtReturnProductDialog;
@@ -2433,7 +2707,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     } 
     
     private void searchProductBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
+        openSearchProduct();
     } 
     
     private void returnProductBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                 
@@ -2576,7 +2850,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
             case "040":
                 if(searchProductBtn.isVisible())
                 {
-                    //openSearchProduct();
+                    openSearchProduct();
                 }
                 else
                 {
@@ -3662,7 +3936,52 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                     selectProductDialog.setLocationRelativeTo(null);
                     txtSelectProductDialog.setText("");
                     selectProductDialog.setVisible(true);
-                    productList = null;
+                } catch (InterruptedException | ExecutionException ex) {
+                   ex.printStackTrace();
+                }
+            }
+            
+        }.execute();
+    }
+    
+    private void openSearchProduct()
+    {
+        startLoading();
+        new SwingWorker<List, Void>(){
+            @Override
+            protected List doInBackground(){
+                List Products= productModel.findAllProducts();
+                return Products;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    productList = get();
+                    DefaultTableModel model = (DefaultTableModel) searchProductDialogTable.getModel();
+                    model.setRowCount(0);
+                    for(int i=0;i<productList.size();i++)
+                    {
+                        Object[] objects = (Object[])productList.get(i);
+                        Product p = (Product)objects[0];
+                        Price pr = (Price)objects[1];
+                        Brand b = (Brand)objects[2];
+                        Category c = (Category)objects[3];
+                        Unity u = (Unity)objects[4];
+                        
+                        Object[] row = {p.getProdBarCode(),p.getProdName(),
+                            p.getProdUnitValue()+" "+u.getUniAbbreviation(),
+                            c.getCatName(),b.getBrandName(),Util.getFormatPrice(pr.getPriceValue())};
+                        
+                        model.addRow(row);
+                    }
+                    stopLoading();
+                    searchProductDialog.setLocationRelativeTo(null);
+                    txtCodeSearchProductDialog.setText("");
+                    txtNameSearchProductDialog.setText("");
+                    txtCategorySearchProductDialog.setText("");
+                    txtBrandSearchProductDialog.setText("");
+                    searchProductDialog.setVisible(true);
                 } catch (InterruptedException | ExecutionException ex) {
                    ex.printStackTrace();
                 }
@@ -4156,6 +4475,39 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         String w = weightTextPane.getText();
         w = w + weight +"\n";
         weightTextPane.setText(w);
+    }
+    
+    private void searchProduct()
+    {
+        String codeSearch = txtCodeSearchProductDialog.getText();
+        String nameSearch = txtNameSearchProductDialog.getText();
+        String categorySearch = txtCategorySearchProductDialog.getText();
+        String brandSearch = txtBrandSearchProductDialog.getText();
+            DefaultTableModel model = (DefaultTableModel) searchProductDialogTable.getModel();
+            model.setRowCount(0);
+            for (int i = 0; i < productList.size(); i++) {
+                Object[] objects = (Object[]) productList.get(i);
+                Product p = (Product) objects[0];
+                Price pr = (Price) objects[1];
+                Brand b = (Brand) objects[2];
+                Category c = (Category) objects[3];
+                Unity u = (Unity) objects[4];
+
+                String code = p.getProdBarCode();
+                String name = p.getProdName().toLowerCase();
+                String category = c.getCatName().toLowerCase();
+                String brand = b.getBrandName().toLowerCase();
+                if((codeSearch.isEmpty() || code.contains(codeSearch.toLowerCase())) && (nameSearch.isEmpty() || name.contains(nameSearch.toLowerCase())) &&
+                        (categorySearch.isEmpty() || category.contains(categorySearch.toLowerCase())) &&
+                        (brandSearch.isEmpty() || brand.contains(brandSearch.toLowerCase())))
+                {
+                    Object[] row = {p.getProdBarCode(), p.getProdName(),
+                        p.getProdUnitValue() + " " + u.getUniAbbreviation(),
+                        c.getCatName(), b.getBrandName(), Util.getFormatPrice(pr.getPriceValue())};
+
+                    model.addRow(row);
+                }
+            }
     }
     
 }
