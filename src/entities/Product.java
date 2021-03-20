@@ -129,7 +129,7 @@ public class Product  implements java.io.Serializable {
         this.owner = owner;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="prodComposition")
     public Product getProduct() {
         return this.product;

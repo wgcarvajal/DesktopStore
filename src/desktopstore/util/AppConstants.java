@@ -19,6 +19,7 @@ public final class AppConstants {
         String CREATE_PURCHASE_ITEM = "createPurchaseItem";
         String AUTOMATIC_READ_WEIGHT = "automaticReadWeight";
         String OPEN_ADD_WEIGHT = "openAddWeight";
+        String NO_PRODUCTS_AVAILABLE = "noProductsAvailable ";
     }
     
     

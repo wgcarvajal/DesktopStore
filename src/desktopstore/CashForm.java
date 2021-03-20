@@ -42,8 +42,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -79,6 +77,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private final String TAG = "CashForm";
     
     private boolean tests= false;
+    
+    private String messageInsufficientProducts;
     
     private PurchaseModel purchaseModel;
     private ProductModel productModel;
@@ -137,6 +137,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
        changeQuatityDialog.pack();
        removeProductDialog.pack();
        returnProductDialog.pack();
+       messageErrorDialog.pack();
        resumeDialog.pack();
        totalDialog.pack();
        addClientDialog.pack();
@@ -147,6 +148,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
        testScaleDialog.pack();
        openCashPasswordDialog.setLocationRelativeTo(null);
        cancelSalePasswordDialog.setLocationRelativeTo(null);
+       messageErrorDialog.setLocationRelativeTo(null);
        noActionDialog.setLocationRelativeTo(null);
        changeQuatityDialog.setLocationRelativeTo(null);
        removeProductDialog.setLocationRelativeTo(null);
@@ -156,6 +158,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
        endPaymentDialog.setLocationRelativeTo(null);
        addWeightDialog.setLocationRelativeTo(null);
        testScaleDialog.setLocationRelativeTo(null);
+       
+       messageErrorChangeQuantityDialgonLabel.setVisible(false);
        
        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
        int width = (int)(screenSize.getWidth()/2);
@@ -431,12 +435,13 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         jPanel11 = new javax.swing.JPanel();
         btnOkCancelSale = new javax.swing.JButton();
         noActionDialog = new javax.swing.JDialog();
-        jLabel6 = new javax.swing.JLabel();
+        messageNoActionLabel = new javax.swing.JLabel();
         btnOkNoAction = new javax.swing.JButton();
         changeQuatityDialog = new javax.swing.JDialog();
         jLabel10 = new javax.swing.JLabel();
         txtChangeQuantityDialog = new javax.swing.JTextField();
         btnOkChangeQuantityDialog = new javax.swing.JButton();
+        messageErrorChangeQuantityDialgonLabel = new javax.swing.JLabel();
         removeProductDialog = new javax.swing.JDialog();
         jLabel11 = new javax.swing.JLabel();
         txtBarCodeRemoveProductDialog = new javax.swing.JTextField();
@@ -493,6 +498,9 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         jLabel20 = new javax.swing.JLabel();
         btnCloseTestScaleDialog = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
+        messageErrorDialog = new javax.swing.JDialog();
+        messageErrorDialogLabel = new javax.swing.JLabel();
+        btnOkMessageErrorDialog = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         rSLabelFecha2 = new rojeru_san.RSLabelFecha();
@@ -683,9 +691,9 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         noActionDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         noActionDialog.setModal(true);
 
-        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("No puedes realizar esta acción");
+        messageNoActionLabel.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        messageNoActionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        messageNoActionLabel.setText("No puedes realizar esta acción");
 
         btnOkNoAction.setText("Aceptar");
         btnOkNoAction.addActionListener(new java.awt.event.ActionListener() {
@@ -703,7 +711,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         noActionDialog.getContentPane().setLayout(noActionDialogLayout);
         noActionDialogLayout.setHorizontalGroup(
             noActionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(messageNoActionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(noActionDialogLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnOkNoAction)
@@ -713,7 +721,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
             noActionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noActionDialogLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(messageNoActionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOkNoAction, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
                 .addContainerGap())
@@ -747,31 +755,43 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
             }
         });
 
+        messageErrorChangeQuantityDialgonLabel.setBackground(new java.awt.Color(243, 223, 223));
+        messageErrorChangeQuantityDialgonLabel.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        messageErrorChangeQuantityDialgonLabel.setForeground(new java.awt.Color(163, 10, 10));
+        messageErrorChangeQuantityDialgonLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        messageErrorChangeQuantityDialgonLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/errorIconSmall.png"))); // NOI18N
+
         javax.swing.GroupLayout changeQuatityDialogLayout = new javax.swing.GroupLayout(changeQuatityDialog.getContentPane());
         changeQuatityDialog.getContentPane().setLayout(changeQuatityDialogLayout);
         changeQuatityDialogLayout.setHorizontalGroup(
             changeQuatityDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(changeQuatityDialogLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtChangeQuantityDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, changeQuatityDialogLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnOkChangeQuantityDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(183, 183, 183))
+            .addGroup(changeQuatityDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(changeQuatityDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(changeQuatityDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtChangeQuantityDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 8, Short.MAX_VALUE))
+                    .addComponent(messageErrorChangeQuantityDialgonLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         changeQuatityDialogLayout.setVerticalGroup(
             changeQuatityDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(changeQuatityDialogLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(messageErrorChangeQuantityDialgonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(changeQuatityDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtChangeQuantityDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtChangeQuantityDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOkChangeQuantityDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         removeProductDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -1537,6 +1557,53 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
             .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        messageErrorDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        messageErrorDialog.setModal(true);
+
+        messageErrorDialogLabel.setBackground(new java.awt.Color(243, 223, 223));
+        messageErrorDialogLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        messageErrorDialogLabel.setForeground(new java.awt.Color(163, 10, 10));
+        messageErrorDialogLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        messageErrorDialogLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/errorIcon.png"))); // NOI18N
+        messageErrorDialogLabel.setText("Message");
+        messageErrorDialogLabel.setOpaque(true);
+
+        btnOkMessageErrorDialog.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnOkMessageErrorDialog.setText("Aceptar");
+        btnOkMessageErrorDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkMessageErrorDialogActionPerformed(evt);
+            }
+        });
+        btnOkMessageErrorDialog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnOkMessageErrorDialogKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout messageErrorDialogLayout = new javax.swing.GroupLayout(messageErrorDialog.getContentPane());
+        messageErrorDialog.getContentPane().setLayout(messageErrorDialogLayout);
+        messageErrorDialogLayout.setHorizontalGroup(
+            messageErrorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messageErrorDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(messageErrorDialogLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messageErrorDialogLayout.createSequentialGroup()
+                .addContainerGap(235, Short.MAX_VALUE)
+                .addComponent(btnOkMessageErrorDialog)
+                .addGap(230, 230, 230))
+        );
+        messageErrorDialogLayout.setVerticalGroup(
+            messageErrorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(messageErrorDialogLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(messageErrorDialogLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOkMessageErrorDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setExtendedState(6);
@@ -1728,7 +1795,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                 .addComponent(butonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         infoSalePanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -2155,6 +2222,18 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         testScaleDialog.dispose();
     }//GEN-LAST:event_btnCloseTestScaleDialogActionPerformed
 
+    private void btnOkMessageErrorDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkMessageErrorDialogActionPerformed
+       messageErrorDialogLabel.setText("");
+       messageErrorDialog.dispose();
+    }//GEN-LAST:event_btnOkMessageErrorDialogActionPerformed
+
+    private void btnOkMessageErrorDialogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnOkMessageErrorDialogKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == 27) {
+            messageErrorDialogLabel.setText("");
+            messageErrorDialog.dispose();
+        }
+    }//GEN-LAST:event_btnOkMessageErrorDialogKeyPressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog addClientDialog;
     private javax.swing.JDialog addWeightDialog;
@@ -2165,6 +2244,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JButton btnOkCancelSale;
     private javax.swing.JButton btnOkChangeQuantityDialog;
     private javax.swing.JButton btnOkEndPaymentDialog;
+    private javax.swing.JButton btnOkMessageErrorDialog;
     private javax.swing.JButton btnOkNoAction;
     private javax.swing.JButton btnOkOpenCash;
     private javax.swing.JButton btnOkRemoveProductDialog;
@@ -2200,7 +2280,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -2224,6 +2303,10 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotalDialog;
     private javax.swing.JLabel lblTotalEndPaymentDialog;
+    private javax.swing.JLabel messageErrorChangeQuantityDialgonLabel;
+    private javax.swing.JDialog messageErrorDialog;
+    private javax.swing.JLabel messageErrorDialogLabel;
+    private javax.swing.JLabel messageNoActionLabel;
     private javax.swing.JDialog noActionDialog;
     private javax.swing.JDialog openCashPasswordDialog;
     private javax.swing.JMenuItem pasteRemoveProductPopupMenu;
@@ -2330,6 +2413,9 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     
     private void changeQuantitybtnActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         txtChangeQuantityDialog.setText("");
+        messageInsufficientProducts = "";
+        messageErrorChangeQuantityDialgonLabel.setText("");
+        messageErrorChangeQuantityDialgonLabel.setVisible(false);
         changeQuatityDialog.setVisible(true);
     } 
     
@@ -2440,7 +2526,10 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                 break;
             case "003":
                 if(changeQuantitybtn.isVisible())
-                {
+                { 
+                   messageInsufficientProducts = "";
+                   messageErrorChangeQuantityDialgonLabel.setText("");
+                   messageErrorChangeQuantityDialgonLabel.setVisible(false);
                    txtChangeQuantityDialog.setText("");
                    changeQuatityDialog.setVisible(true);
                 }
@@ -2982,7 +3071,34 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                     if (product != null) {
                         boolean productType = product.getProducttype().getProdtypeValue().equals("Sin empaquetar");
                         if (!productType) {
-                            return addProduct(product, productType, isReturnProduct);
+                            int q = 1;
+                            if(isReturnProduct)
+                            {
+                                q=-1;
+                            }
+                            boolean thereAreProducts = false;
+                            if(product.getProduct()!=null)
+                            {
+                                q = q * product.getProdCompositionValue();
+                                if((product.getProduct().getProdStock() - q)>=0)
+                                {
+                                    thereAreProducts = true;
+                                }
+                            }
+                            else if((product.getProdStock()-q)>=0)
+                            {
+                                thereAreProducts = true;
+                            }
+                            if(thereAreProducts)
+                            {
+                                return addProduct(product, productType, isReturnProduct);
+                            }
+                            else
+                            {
+                                ResultAddProduct result = new ResultAddProduct();
+                                result.setMessage(AppConstants.Cashier.NO_PRODUCTS_AVAILABLE);
+                                return result;
+                            }
                         } else {
                             ResultAddProduct result = new ResultAddProduct();
                             isReturnProductWeight = isReturnProduct;
@@ -3016,7 +3132,13 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         String message = result.getMessage();
         if(message.equals(AppConstants.Cashier.NO_FOUND_PRODUCT))
         {
-            //show message toast
+            messageErrorDialogLabel.setText("El producto no existe");
+            messageErrorDialog.setVisible(true);
+        }
+        else if(message.equals(AppConstants.Cashier.NO_PRODUCTS_AVAILABLE))
+        {
+            messageErrorDialogLabel.setText("El producto se encuentra agotado");
+            messageErrorDialog.setVisible(true);
         }
         else if(message.equals(AppConstants.Cashier.CREATE_PURCHASE_ITEM))
         {
@@ -3366,8 +3488,37 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                         int q = Integer.parseInt(quantity);
                         if (q > 0) {
                             int index = purchaseitems.size() - 1;
-                            if (purchaseitems.get(index).getPurItemQuantity() < 0) {
+                            Purchaseitem pi = purchaseitems.get(index);
+                            Product p = productModel.findByBarCode(pi.getProduct().getProdBarCode());
+                            if (pi.getPurItemQuantity() < 0) {
                                 q = q * -1;
+                            }
+                            else
+                            {
+                                if(q > pi.getPurItemQuantity())
+                                {
+                                    boolean thereAreProducts = false;
+                                    int r = q - pi.getPurItemQuantity();
+                                    if(p.getProduct()!=null)
+                                    {
+                                        int qaux = r * p.getProdCompositionValue();
+                                        if((p.getProduct().getProdStock() - qaux)>=0)
+                                        {
+                                            thereAreProducts = true;
+                                        }
+                                    }
+                                    else if((p.getProdStock()-r)>=0)
+                                    {
+                                        thereAreProducts = true;
+                                    }
+                                    
+                                    if(!thereAreProducts)
+                                    {
+                                        messageInsufficientProducts = "No hay productos suficientes";
+                                        return false;
+                                    }
+                                }
+                                
                             }
                             purchaseitems.get(index).setPurItemQuantity(q);
                             purchaseitemModel.update(purchaseitems.get(index));
@@ -3377,8 +3528,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                     } catch (NumberFormatException e) {
                          
                     }
-                    return false;
                 }
+                messageInsufficientProducts = "";
                 return false;
             }
             @Override
@@ -3394,6 +3545,16 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                     }
                     else
                     {
+                        if(!messageInsufficientProducts.isEmpty())
+                        {
+                            messageErrorChangeQuantityDialgonLabel.setText(messageInsufficientProducts);
+                            messageErrorChangeQuantityDialgonLabel.setVisible(true);
+                        }
+                        else
+                        {
+                           messageErrorChangeQuantityDialgonLabel.setText("");
+                           messageErrorChangeQuantityDialgonLabel.setVisible(false); 
+                        }
                         changeQuatityDialog.setVisible(true);
                     }
                 } catch (InterruptedException | ExecutionException ex) {
