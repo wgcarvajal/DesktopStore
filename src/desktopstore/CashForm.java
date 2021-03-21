@@ -23,18 +23,22 @@ import entities.Owner;
 import entities.Price;
 import entities.Pricepurchase;
 import entities.Product;
+import entities.Productimage;
 import entities.Purchase;
 import entities.Purchaseitem;
 import entities.Purchasetotal;
 import entities.Unity;
 import entities.User;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,14 +46,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -72,7 +81,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author Wilson Carvajal
  */
-public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
+public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,ActionListener,ChangeListener{
     
     private final String TAG = "CashForm";
     
@@ -112,6 +121,10 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private User cashier;
     private Product producWaitForWeight;
     private CashInfo cashInfo;
+    
+    private List fruitList;
+    private List vegetalList;
+    private List meatsList;
 
     /**
      * Creates new form CashForm
@@ -161,6 +174,16 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
        testScaleDialog.setLocationRelativeTo(null);
        
        messageErrorChangeQuantityDialgonLabel.setVisible(false);
+       
+       fruitPanel = new JPanel();
+       meatsPanel = new JPanel();
+       vegetablePanel = new JPanel();
+       
+       categoryTabPanel.add("Verduras",vegetablePanel);
+       categoryTabPanel.add("Frutas",fruitPanel);
+       categoryTabPanel.add("Carnes",meatsPanel);
+       
+       categoryTabPanel.addChangeListener(this);
        
        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
        int width = (int)(screenSize.getWidth()/2);
@@ -373,6 +396,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                     .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 ))
         );
+        tabPanel.setVisible(false);
    }
     
     public void setCashier(User cashier)
@@ -534,6 +558,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         jLabel4 = new javax.swing.JLabel();
         codeTxt = new javax.swing.JTextField();
         btnReadCode = new javax.swing.JButton();
+        tabPanel = new javax.swing.JPanel();
+        categoryTabPanel = new javax.swing.JTabbedPane();
         infoSalePanel = new javax.swing.JPanel();
         clientAndTotalPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -2001,12 +2027,32 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                 .addComponent(btnReadCode, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        tabPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout tabPanelLayout = new javax.swing.GroupLayout(tabPanel);
+        tabPanel.setLayout(tabPanelLayout);
+        tabPanelLayout.setHorizontalGroup(
+            tabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(categoryTabPanel)
+                .addContainerGap())
+        );
+        tabPanelLayout.setVerticalGroup(
+            tabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(categoryTabPanel)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout buttonsAndSearchPanelLayout = new javax.swing.GroupLayout(buttonsAndSearchPanel);
         buttonsAndSearchPanel.setLayout(buttonsAndSearchPanelLayout);
         buttonsAndSearchPanelLayout.setHorizontalGroup(
             buttonsAndSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(butonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(tabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         buttonsAndSearchPanelLayout.setVerticalGroup(
             buttonsAndSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2014,7 +2060,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                 .addComponent(butonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(tabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         infoSalePanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -2517,6 +2564,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JPanel butonsPanel;
     private javax.swing.JPanel buttonsAndSearchPanel;
     private javax.swing.JDialog cancelSalePasswordDialog;
+    private javax.swing.JTabbedPane categoryTabPanel;
     private javax.swing.JDialog changeQuatityDialog;
     private javax.swing.JPanel clientAndTotalPanel;
     private javax.swing.JTextField codeTxt;
@@ -2594,6 +2642,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private javax.swing.JDialog selectProductDialog;
     private javax.swing.JTable selectProductDialogTable;
     private javax.swing.JDialog successfulPaymentDialog;
+    private javax.swing.JPanel tabPanel;
     private javax.swing.JDialog testScaleDialog;
     private javax.swing.JDialog totalDialog;
     private javax.swing.JTextField txtAddClientDialog;
@@ -2628,6 +2677,10 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     private JButton searchClientBtn;
     private JButton totalBtn;
     private JButton scaleTestBtn;
+    
+    private JPanel fruitPanel;
+    private JPanel vegetablePanel;
+    private JPanel meatsPanel;
 
     
     private void startTestScale()
@@ -2700,6 +2753,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
     
     private void addToBacketBtnActionPerformed(java.awt.event.ActionEvent evt) {                                               
         addToBacketView();
+        loadPanelGrid(0);
     }  
     
     private void resumeBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
@@ -2783,6 +2837,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
             case "002":
                 if (addToBacketBtn.isVisible()) {
                     addToBacketView();
+                    loadPanelGrid(0);
                 } else {
                    noActionDialog.setVisible(true);
                 }
@@ -3032,6 +3087,11 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                     .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 ))
         );
+        vegetalList = null;
+        fruitList = null;
+        meatsList = null;
+        categoryTabPanel.setSelectedIndex(0);
+        tabPanel.setVisible(false);
     }
     
     public void closeView()
@@ -3107,6 +3167,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                     .addComponent(scaleTestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     ))
         );
+        tabPanel.setVisible(true);
     }
     
     private void createPurchaseItemView(boolean isProductType) {
@@ -4043,7 +4104,9 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
                 try {
                     purchaseitems = get();
                     boolean isProductType = purchaseitems.get(purchaseitems.size()-1).getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar");
+                    tabPanel.setVisible(true);
                     updatePurchaseItemView(isProductType);
+                    loadPanelGrid(0);
                     if(purchase.getClient()!=null)
                     {
                         lblNameClient.setText(purchase.getClient().getCliName()+" "+purchase.getClient().getCliLastName());
@@ -4483,31 +4546,166 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener{
         String nameSearch = txtNameSearchProductDialog.getText();
         String categorySearch = txtCategorySearchProductDialog.getText();
         String brandSearch = txtBrandSearchProductDialog.getText();
-            DefaultTableModel model = (DefaultTableModel) searchProductDialogTable.getModel();
-            model.setRowCount(0);
-            for (int i = 0; i < productList.size(); i++) {
-                Object[] objects = (Object[]) productList.get(i);
-                Product p = (Product) objects[0];
-                Price pr = (Price) objects[1];
-                Brand b = (Brand) objects[2];
-                Category c = (Category) objects[3];
-                Unity u = (Unity) objects[4];
+        DefaultTableModel model = (DefaultTableModel) searchProductDialogTable.getModel();
+        model.setRowCount(0);
+        for (int i = 0; i < productList.size(); i++) {
+            Object[] objects = (Object[]) productList.get(i);
+            Product p = (Product) objects[0];
+            Price pr = (Price) objects[1];
+            Brand b = (Brand) objects[2];
+            Category c = (Category) objects[3];
+            Unity u = (Unity) objects[4];
 
-                String code = p.getProdBarCode();
-                String name = p.getProdName().toLowerCase();
-                String category = c.getCatName().toLowerCase();
-                String brand = b.getBrandName().toLowerCase();
-                if((codeSearch.isEmpty() || code.contains(codeSearch.toLowerCase())) && (nameSearch.isEmpty() || name.contains(nameSearch.toLowerCase())) &&
-                        (categorySearch.isEmpty() || category.contains(categorySearch.toLowerCase())) &&
-                        (brandSearch.isEmpty() || brand.contains(brandSearch.toLowerCase())))
-                {
-                    Object[] row = {p.getProdBarCode(), p.getProdName(),
-                        p.getProdUnitValue() + " " + u.getUniAbbreviation(),
-                        c.getCatName(), b.getBrandName(), Util.getFormatPrice(pr.getPriceValue())};
+            String code = p.getProdBarCode();
+            String name = p.getProdName().toLowerCase();
+            String category = c.getCatName().toLowerCase();
+            String brand = b.getBrandName().toLowerCase();
+            if((codeSearch.isEmpty() || code.contains(codeSearch.toLowerCase())) && (nameSearch.isEmpty() || name.contains(nameSearch.toLowerCase())) &&
+                    (categorySearch.isEmpty() || category.contains(categorySearch.toLowerCase())) &&
+                    (brandSearch.isEmpty() || brand.contains(brandSearch.toLowerCase())))
+            {
+                Object[] row = {p.getProdBarCode(), p.getProdName(),
+                    p.getProdUnitValue() + " " + u.getUniAbbreviation(),
+                    c.getCatName(), b.getBrandName(), Util.getFormatPrice(pr.getPriceValue())};
 
-                    model.addRow(row);
-                }
+                model.addRow(row);
             }
+        }
+    }
+    
+    private void loadPanelGrid(final int category)
+    {
+        if ((category == 0 && vegetalList == null) || 
+                (category == 1 && fruitList==null) || 
+                (category == 2 && meatsList == null)) {
+            startLoading();
+            switch (category) {
+                case 0:
+                    vegetablePanel.removeAll();
+                    break;
+                case 1:
+                    fruitPanel.removeAll();
+                    break;
+                default:
+                    meatsPanel.removeAll();
+                    break;
+            }
+            
+            new SwingWorker<List, Void>() {
+                @Override
+                protected List doInBackground() {
+                    List list;
+                    switch (category) {
+                        case 0:
+                            list = productModel.findProductsCategoryWithMainImage("Verduras");
+                            break;
+                        case 1:
+                            list = productModel.findProductsCategoryWithMainImage("Frutas");
+                            break;
+                        default:
+                            list = productModel.findProductsCategoryWithMainImage("");
+                            break;
+                    }
+                    return list;
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        List list;
+                        switch (category) {
+                            case 0:
+                                list= vegetalList = get();
+                                break;
+                            case 1:
+                                list= fruitList = get();
+                                break;
+                            default:
+                                list= meatsList = get();
+                                break;
+                        }
+                        for (int i = 0; i < list.size(); i++) {
+                            Object[] objects = (Object[]) list.get(i);
+                            Product p = (Product) objects[0];
+                            Productimage pi = (Productimage) objects[1];
+                            ImageIcon icon = new ImageIcon(pi.getProdimgBinary());
+                            JLabel itemImage = new JLabel();
+                            itemImage.setIcon(icon);
+                            itemImage.setHorizontalAlignment(JLabel.CENTER);
+                            JLabel itemLabel = new JLabel();
+                            String productName = p.getProdName();
+                            if (productName.length() > 12) {
+                                productName = productName.substring(0, 12);
+                            }
+                            itemLabel.setText(productName);
+                            itemLabel.setHorizontalAlignment(JLabel.CENTER);
+                            JButton itemButton = new JButton();
+                            itemButton.setName(p.getProdBarCode());
+                            itemButton.addActionListener(CashForm.this);
+                            GroupLayout itemGroupLayout = new javax.swing.GroupLayout(itemButton);
+                            itemButton.setLayout(itemGroupLayout);
+
+                            itemGroupLayout.setHorizontalGroup(
+                                    itemGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(itemGroupLayout.createSequentialGroup()
+                                            .addContainerGap()
+                                            .addGroup(itemGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(itemImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(itemLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addContainerGap())
+                            );
+                            itemGroupLayout.setVerticalGroup(
+                                    itemGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(itemGroupLayout.createSequentialGroup()
+                                            .addContainerGap()
+                                            .addComponent(itemImage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(itemLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                                            .addContainerGap())
+                            );
+                            switch (category) {
+                                case 0:
+                                    vegetablePanel.add(itemButton);
+                                    break;
+                                case 1:
+                                    fruitPanel.add(itemButton);
+                                    break;
+                                default:
+                                    meatsPanel.add(itemButton);
+                                    break;
+                            }
+                        }
+                        GridLayout gridLayout = new GridLayout(0, 5);
+                        switch (category) {
+                            case 0:
+                                vegetablePanel.setLayout(gridLayout);
+                                break;
+                            case 1:
+                                fruitPanel.setLayout(gridLayout);
+                                break;
+                            default:
+                                meatsPanel.setLayout(gridLayout);
+                                break;
+                        }
+                        stopLoading();
+                    } catch (InterruptedException | ExecutionException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }.execute();
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       JButton b = ((JButton) e.getSource());
+       searchAndAddProduct(b.getName(), false);
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        
+        loadPanelGrid(categoryTabPanel.getSelectedIndex());
     }
     
 }

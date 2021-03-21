@@ -5,6 +5,9 @@
  */
 package desktopstore;
 
+import java.util.List;
+import model.ProductModel;
+
 /**
  *
  * @author aranda

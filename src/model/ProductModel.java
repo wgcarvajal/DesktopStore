@@ -76,4 +76,28 @@ public class ProductModel extends AbstractModel<Product>{
         return list;
     }
     
+    public List findProductsCategoryWithMainImage(String category)
+    {
+        Session session = null;
+        Transaction transaction = null;
+        session = sessionFactory.openSession();
+        List list = null;
+        try {
+                transaction = session.beginTransaction();
+                Query query = session.createQuery("SELECT p,pi FROM Product p INNER JOIN p.productimages pi "
+                        + "INNER JOIN p.category c "
+                      +"WHERE p.category.catId = c.catId AND pi.product.prodId = p.prodId AND c.catName = '"+category+"' "
+                        + "ORDER BY p.prodName") ;
+                list = query.list();
+                transaction.commit();
+        } catch (Exception e) {
+                if(transaction != null) {
+                        transaction.rollback();
+                }
+        } finally {
+                session.close();
+        }
+        return list;
+    }
+    
 }

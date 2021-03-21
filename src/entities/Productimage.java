@@ -26,6 +26,7 @@ public class Productimage  implements java.io.Serializable {
      private Product product;
      private String prodimgPath;
      private boolean prodimgMain;
+     private byte[] prodimgBinary;
 
     public Productimage() {
     }
@@ -51,6 +52,15 @@ public class Productimage  implements java.io.Serializable {
     
     public void setProdimgId(Long prodimgId) {
         this.prodimgId = prodimgId;
+    }
+    
+    @Column(name="prodimgBinary",nullable=false)
+    public byte[] getProdimgBinary() {
+        return this.prodimgBinary;
+    }
+    
+    public void setProdimgBinary(byte[] prodimgBinary) {
+        this.prodimgBinary = prodimgBinary;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
