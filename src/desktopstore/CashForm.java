@@ -1647,7 +1647,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
         searchProductDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         searchProductDialog.setTitle("Productos");
         searchProductDialog.setModal(true);
-        searchProductDialog.setPreferredSize(new java.awt.Dimension(1000, 584));
 
         jLabel23.setText("Código de barras");
 
@@ -2025,21 +2024,17 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
 
         tabPanel.setBackground(new java.awt.Color(255, 255, 255));
 
+        categoryTabPanel.setFocusable(false);
+
         javax.swing.GroupLayout tabPanelLayout = new javax.swing.GroupLayout(tabPanel);
         tabPanel.setLayout(tabPanelLayout);
         tabPanelLayout.setHorizontalGroup(
             tabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tabPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(categoryTabPanel)
-                .addContainerGap())
+            .addComponent(categoryTabPanel)
         );
         tabPanelLayout.setVerticalGroup(
             tabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(categoryTabPanel)
-                .addContainerGap())
+            .addComponent(categoryTabPanel)
         );
 
         javax.swing.GroupLayout buttonsAndSearchPanelLayout = new javax.swing.GroupLayout(buttonsAndSearchPanel);
@@ -3517,7 +3512,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
             protected void done() {
                 stopLoading();
                 try {
-                    stopScale();
                     ResultAddProduct result = get();
                     processResultAddProduct(result);
                 } catch (InterruptedException | ExecutionException ex) {
@@ -4628,6 +4622,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                             itemButton.addActionListener(CashForm.this);
                             GroupLayout itemGroupLayout = new javax.swing.GroupLayout(itemButton);
                             itemButton.setLayout(itemGroupLayout);
+                            itemButton.setFocusable(false);
+                            itemButton.setBackground(new java.awt.Color(255, 255, 255));
 
                             itemGroupLayout.setHorizontalGroup(
                                     itemGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4644,7 +4640,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                                             .addContainerGap()
                                             .addComponent(itemImage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(itemLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                                            .addComponent(itemLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addContainerGap())
                             );
                             switch (category) {

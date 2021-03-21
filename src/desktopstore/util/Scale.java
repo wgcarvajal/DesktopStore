@@ -110,21 +110,9 @@ public class Scale{
         }
     }
     
-    /*private void initListener()
-    {
-        try {
-            serialPort.addEventListener(this);
-            serialPort.notifyOnDataAvailable(true);
-        }
-        catch (TooManyListenersException e) {
-          Util.logError(TAG, "initListener",e.getMessage());
-        }
-    }*/
-    
     public synchronized void stop()
     {
         try{
-            serialPort.removeEventListener();
             serialPort.close();
         }catch(Exception e)
         {
