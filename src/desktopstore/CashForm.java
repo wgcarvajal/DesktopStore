@@ -124,8 +124,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
     
     private List fruitList;
     private List vegetalList;
-    private List meatsList;
-
     /**
      * Creates new form CashForm
      */
@@ -176,12 +174,10 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
        messageErrorChangeQuantityDialgonLabel.setVisible(false);
        
        fruitPanel = new JPanel();
-       meatsPanel = new JPanel();
        vegetablePanel = new JPanel();
        
        categoryTabPanel.add("Verduras",vegetablePanel);
        categoryTabPanel.add("Frutas",fruitPanel);
-       categoryTabPanel.add("Carnes",meatsPanel);
        
        categoryTabPanel.addChangeListener(this);
        
@@ -2680,7 +2676,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
     
     private JPanel fruitPanel;
     private JPanel vegetablePanel;
-    private JPanel meatsPanel;
 
     
     private void startTestScale()
@@ -3089,7 +3084,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
         );
         vegetalList = null;
         fruitList = null;
-        meatsList = null;
         categoryTabPanel.setSelectedIndex(0);
         tabPanel.setVisible(false);
     }
@@ -4576,18 +4570,14 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
     private void loadPanelGrid(final int category)
     {
         if ((category == 0 && vegetalList == null) || 
-                (category == 1 && fruitList==null) || 
-                (category == 2 && meatsList == null)) {
+                (category == 1 && fruitList==null)) {
             startLoading();
             switch (category) {
                 case 0:
                     vegetablePanel.removeAll();
                     break;
-                case 1:
+                case 1:default:
                     fruitPanel.removeAll();
-                    break;
-                default:
-                    meatsPanel.removeAll();
                     break;
             }
             
@@ -4599,11 +4589,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                         case 0:
                             list = productModel.findProductsCategoryWithMainImage("Verduras");
                             break;
-                        case 1:
+                        case 1: default:
                             list = productModel.findProductsCategoryWithMainImage("Frutas");
-                            break;
-                        default:
-                            list = productModel.findProductsCategoryWithMainImage("");
                             break;
                     }
                     return list;
@@ -4617,11 +4604,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                             case 0:
                                 list= vegetalList = get();
                                 break;
-                            case 1:
+                            case 1:default:
                                 list= fruitList = get();
-                                break;
-                            default:
-                                list= meatsList = get();
                                 break;
                         }
                         for (int i = 0; i < list.size(); i++) {
@@ -4667,11 +4651,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                                 case 0:
                                     vegetablePanel.add(itemButton);
                                     break;
-                                case 1:
+                                case 1: default:
                                     fruitPanel.add(itemButton);
-                                    break;
-                                default:
-                                    meatsPanel.add(itemButton);
                                     break;
                             }
                         }
@@ -4680,11 +4661,8 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                             case 0:
                                 vegetablePanel.setLayout(gridLayout);
                                 break;
-                            case 1:
+                            case 1:default:
                                 fruitPanel.setLayout(gridLayout);
-                                break;
-                            default:
-                                meatsPanel.setLayout(gridLayout);
                                 break;
                         }
                         stopLoading();
