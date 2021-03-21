@@ -29,7 +29,6 @@ import entities.Purchaseitem;
 import entities.Purchasetotal;
 import entities.Unity;
 import entities.User;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -46,8 +45,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -4612,10 +4609,24 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                             itemImage.setHorizontalAlignment(JLabel.CENTER);
                             JLabel itemLabel = new JLabel();
                             String productName = p.getProdName();
-                            if (productName.length() > 12) {
-                                productName = productName.substring(0, 12);
+                            if (productName.length() > 9) {
+                                
+                                String [] split = productName.split(" ");
+                                if(split.length==2)
+                                {
+                                    productName = split[0]+split[1].substring(0, 1).toUpperCase();
+                                }
+                                else if(split.length==3)
+                                {
+                                    productName = split[0]+split[2].substring(0, 1).toUpperCase();
+                                }
+                                
+                                if(productName.length()>9){
+                                    productName = productName.substring(0, 9);
+                                }
                             }
                             itemLabel.setText(productName);
+                            itemLabel.setFont(new Font("Lucida Grande", 0, 12));
                             itemLabel.setHorizontalAlignment(JLabel.CENTER);
                             JButton itemButton = new JButton();
                             itemButton.setName(p.getProdBarCode());

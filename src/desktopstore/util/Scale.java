@@ -62,7 +62,6 @@ public class Scale{
         if(initSerialPort())
         {
             setParameterSerialPort();
-            //initListener();
             return true;
         }
         return false;
