@@ -4088,9 +4088,14 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                 stopLoading();
                 try {
                     purchaseitems = get();
-                    boolean isProductType = purchaseitems.get(purchaseitems.size()-1).getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar");
                     tabPanel.setVisible(true);
-                    updatePurchaseItemView(isProductType);
+                    if (purchaseitems.size() > 0) {
+                        boolean isProductType = purchaseitems.get(purchaseitems.size() - 1).getProduct().getProducttype().getProdtypeValue().equals("Sin empaquetar");
+                        updatePurchaseItemView(isProductType);
+                    }
+                    else{
+                        addToBacketView();
+                    }
                     loadPanelGrid(0);
                     if(purchase.getClient()!=null)
                     {

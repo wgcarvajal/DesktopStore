@@ -28,11 +28,11 @@ public class Util {
     public static String projectPath = "/store";
     
     
-    public static String PRODUCTIMAGEDIR= "/Users/aranda/filesStore/productImage/";
+    /*public static String PRODUCTIMAGEDIR= "/Users/aranda/filesStore/productImage/";
     public static String BILLDIR= "/Users/aranda/filesStore/bill/";
     public static String FONTDIR= "/Users/aranda/filesStore/font/";
     public static String LOGSDIR= "/Users/aranda/filesStore/logs/";
-    public static String CASHINFO = "/Users/aranda/filesStore/cashInfo/info.json";
+    public static String CASHINFO = "/Users/aranda/filesStore/cashInfo/info.json";*/
     
     /*public static String PRODUCTIMAGEDIR= "/home/store/filesStore/productImage/";
     public static String BILLDIR= "/home/store/filesStore/bill/";
@@ -45,11 +45,11 @@ public class Util {
     public static String LOGSDIR= "C:\\filesStore\\logs\\";
     public static String CASHINFO = "C:\\filesStore\\cashInfo\\info.json";*/
     
-    /*public static String PRODUCTIMAGEDIR= "D:\\filesStore\\productImage\\";
+    public static String PRODUCTIMAGEDIR= "D:\\filesStore\\productImage\\";
     public static String BILLDIR= "D:\\filesStore\\bill\\";
     public static String FONTDIR= "D:\\filesStore\\font\\";
     public static String LOGSDIR= "D:\\filesStore\\logs\\";
-    public static String CASHINFO = "D:\\filesStore\\cashInfo\\info.json";*/
+    public static String CASHINFO = "D:\\filesStore\\cashInfo\\info.json";
     
     public static String formatText(String value)
     {
