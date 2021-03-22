@@ -3704,7 +3704,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
             while(scale.getWeight().equals("0")) {
                 c = Calendar.getInstance();
                 long currentTime = c.getTimeInMillis();
-                if(currentTime>(initTime + 3000l))
+                if(currentTime>(initTime + 2000l))
                 {
                     break;
                 }
@@ -4493,6 +4493,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
         codeTxt.setEnabled(false);
         btnReadCode.setEnabled(false);
         btnReadCode.setIcon(loadingIcon);
+        categoryTabPanel.setVisible(false);
     }
     
     private void stopLoading()
@@ -4515,6 +4516,7 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
         codeTxt.setEnabled(true);
         btnReadCode.setEnabled(true);
         btnReadCode.setIcon(searchIcon);
+        categoryTabPanel.setVisible(true);
         codeTxt.requestFocus();
     }
 
