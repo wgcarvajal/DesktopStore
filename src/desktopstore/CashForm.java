@@ -3766,7 +3766,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                    fv = fv * purchaseitem.getPriceValue();
                    long round = Math.round(fv);
                    return Util.getFormatPrice(round);
-                   
            }
         }
         return Util.getFormatPrice(purchaseitem.getPurItemQuantity() * purchaseitem.getPriceValue());
@@ -4535,6 +4534,11 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
     private void searchProduct()
     {
         String codeSearch = txtCodeSearchProductDialog.getText();
+        if(codeSearch.length()>12)
+        {
+            codeSearch = codeSearch.substring(0,12);
+            txtCodeSearchProductDialog.setText(codeSearch);
+        }
         String nameSearch = txtNameSearchProductDialog.getText();
         String categorySearch = txtCategorySearchProductDialog.getText();
         String brandSearch = txtBrandSearchProductDialog.getText();
