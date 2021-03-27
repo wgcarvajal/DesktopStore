@@ -3647,10 +3647,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
             }
         }
         
-        if(scale!=null){
-            scale.stop();
-        }
-        
         if(listScaleIp==null)
         {
             listScaleIp = new ArrayList<>();
@@ -3661,7 +3657,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
                 ScaleIP scaleIP = listScaleIp.get(i);
                 if(scaleIP.getIp().equals(cashInfo.getCashIp()))
                 {
-                    scaleIP.getScale().stop();
                     listScaleIp.remove(scaleIP);
                 }
             }
@@ -3688,7 +3683,6 @@ public class CashForm extends javax.swing.JFrame implements Scale.Mlistener,Acti
     public void stopScale()
     {
         if(scale!=null){
-            scale.stop();
             scale = null;
         }
     }
